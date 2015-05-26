@@ -1,17 +1,19 @@
-package com.vmodev.pdfwriter;
+package com.vmodev.pdfwriter.sample;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.vmodev.pdfwriter.PDFDocument;
+import com.vmodev.pdfwriter.PDFPage;
 import com.vmodev.pdfwriter.exception.PDFWritingErrorException;
 import com.vmodev.pdfwriter.model.PredefinedFont;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -20,25 +22,15 @@ public class MainActivity extends Activity {
       findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
-            PDFDocument document = new PDFDocument("Kien","ME");
-            for(int i = 0; i<=50;i++) {
+            PDFDocument document = new PDFDocument("Kien", "ME");
+            for (int i = 0; i <= 50; i++) {
                PDFPage page = document.addPage();
                page.addText("ABC ABC ABC ABC ABC ABC BAC", 70, 60, PredefinedFont.Helvetica, 10);
-               page.addParagraph("The Unity Asset Store is a great place to find models, scripts, audio and starter kits - but did you know you can also distribute and sell your work to a wide audience of Unity users ? If you're a skilled programmer, artist, designer, modeller or musician, you might want to look at our Asset Store submission guidelines !",0,
-                  400,PredefinedFont.Courier,10,500);
-               /*Bitmap bitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()
-                  +"/temporary_holder.jpg");
-               try {
-                  page.addImage(Environment.getExternalStorageDirectory()+"/temporary_holder.jpg",
-                     0,0,bitmap.getHeight(),bitmap.getWidth());
-               } catch (PDFImageNotFoundException e) {
-                  e.printStackTrace();
-               } catch (PDFImageIOException e) {
-                  e.printStackTrace();
-               }*/
+               page.addParagraph("The Unity Asset Store is a great place to find models, scripts, audio and starter kits - but did you know you can also distribute and sell your work to a wide audience of Unity users ? If you're a skilled programmer, artist, designer, modeller or musician, you might want to look at our Asset Store submission guidelines !", 0,
+                  400, PredefinedFont.Courier, 10, 500);
             }
             try {
-               document.createPDF(Environment.getExternalStorageDirectory()+"/KienPDFTest.pdf");
+               document.createPDF(Environment.getExternalStorageDirectory() + "/KienPDFTest.pdf");
             } catch (PDFWritingErrorException e) {
                e.printStackTrace();
             }

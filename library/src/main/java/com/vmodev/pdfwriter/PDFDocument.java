@@ -117,7 +117,7 @@ public class PDFDocument {
          myBuffer.close();
          myBuffer = null;
       } catch (IOException ex) {
-         throw new PDFWritingErrorException("Errore nella scrittura del PDF", ex);
+         throw new PDFWritingErrorException("Error when writing PDF", ex);
       } catch (PDFBufferErrorException e) {
          e.printStackTrace();
       }
@@ -139,9 +139,9 @@ public class PDFDocument {
          createPDF(myFileOut);
          myFileOut.close();
       } catch (IOException exIO) {
-         throw new PDFWritingErrorException("Errore nella scrittura del file", exIO);
+         throw new PDFWritingErrorException("Cannot write content to file", exIO);
       } catch (PDFWritingErrorException exPDF) {
-         throw new PDFWritingErrorException("Errore nella scrittura del PDF", exPDF);
+         throw new PDFWritingErrorException("Cannot write PDF", exPDF);
       } catch (PDFIncorrectParagraghException e) {
          e.printStackTrace();
       }
@@ -234,7 +234,7 @@ public class PDFDocument {
          myBuffer.write(arrTemp, 0, arrTemp.length);
          return arrTemp.length;
       } catch (IOException ex) {
-         throw new PDFBufferErrorException("Errore nella scrittura del Buffer", ex);
+         throw new PDFBufferErrorException("Buffer Error", ex);
       }
    }
 
@@ -250,7 +250,7 @@ public class PDFDocument {
          myBuffer.write(byteContent, 0, byteContent.length);
          return byteContent.length;
       } catch (IOException ex) {
-         throw new PDFBufferErrorException("Errore nella scrittura del Buffer", ex);
+         throw new PDFBufferErrorException("Buffer Error", ex);
       }
    }
 
