@@ -9,7 +9,7 @@ An android pdf writer - fast and safe
 - Add images and shapes
 - Add table
 
-# How to use:
+# How to use
 ```
 //create document
 PDFDocument document = new PDFDocument("Document's Name", "Document's Author");
