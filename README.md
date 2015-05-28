@@ -2,6 +2,13 @@
 
 An android pdf writer - fast and safe
 
+# Feature
+- Create PDF document in your android project fast and safe.
+- Have text and graphics method.
+- Add your paragraph with auto break line.
+- Add images and shapes
+- Add table
+
 # How to use:
 ```
 //create document
