@@ -22,6 +22,7 @@ import com.vmodev.pdfwriter.model.RectangleElement;
 import com.vmodev.pdfwriter.model.TextElement;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by Kien on 5/25/2015.
@@ -175,13 +176,16 @@ public class PDFPage implements IWritable {
     * @param y Y position of the text in the page
     * @param fontType Font's type
     * @param parWidth Paragraph's width
+    * Return height of paragraph;
     */
-   public void addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
+   public int addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
                             int parWidth) {
-      ParagraphElement objParagraph = new ParagraphElement(TextAdapter.formatParagraph(newText,
-         fontSize, fontType, parWidth), fontSize, fontType, x, y);
+      Iterable formattedPara = TextAdapter.formatParagraph(newText,
+         fontSize, fontType, parWidth);
+      ParagraphElement objParagraph = new ParagraphElement(formattedPara, fontSize, fontType, x, y);
       elements.add(objParagraph);
       objParagraph = null;
+      return paragraphSize(formattedPara)*(fontSize+4);
    }
 
    /**
@@ -193,13 +197,17 @@ public class PDFPage implements IWritable {
     * @param fontSize Font's size
     * @param parWidth Paragraph's width
     * @param fontColor Font's color
+    * Return height of paragraph;
     */
-   public void addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
+   public int addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
                             int parWidth, PredefinedColor fontColor) {
+      Iterable formattedPara = TextAdapter.formatParagraph(newText,
+         fontSize, fontType, parWidth);
       ParagraphElement objParagraph = new ParagraphElement(TextAdapter.formatParagraph(newText,
          fontSize, fontType, parWidth), fontSize, fontType, x, y, fontColor);
       elements.add(objParagraph);
       objParagraph = null;
+      return paragraphSize(formattedPara)*(fontSize+4);
    }
 
    /**
@@ -211,13 +219,17 @@ public class PDFPage implements IWritable {
     * @param fontSize Font's size
     * @param parWidth Paragraph's width
     * @param lineHeight Line's height
+    * Return height of paragraph;
     */
-   public void addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
+   public int addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
                             int parWidth, int lineHeight) {
+      Iterable formattedPara = TextAdapter.formatParagraph(newText,
+         fontSize, fontType, parWidth, lineHeight);
       ParagraphElement objParagraph = new ParagraphElement(TextAdapter.formatParagraph(newText,
          fontSize, fontType, parWidth, lineHeight), fontSize, fontType, x, y);
       elements.add(objParagraph);
       objParagraph = null;
+      return paragraphSize(formattedPara)*(fontSize+4);
    }
 
    /**
@@ -230,13 +242,17 @@ public class PDFPage implements IWritable {
     * @param parWidth Paragraph's width
     * @param lineHeight Line's height
     * @param fontColor Font's color
+    * Return height of paragraph;
     */
-   public void addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
+   public int addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
                             int parWidth, int lineHeight, PredefinedColor fontColor) {
+      Iterable formattedPara = TextAdapter.formatParagraph(newText,
+         fontSize, fontType, parWidth, lineHeight);
       ParagraphElement objParagraph = new ParagraphElement(TextAdapter.formatParagraph(newText,
          fontSize, fontType, parWidth, lineHeight), fontSize, fontType, x, y, fontColor);
       elements.add(objParagraph);
       objParagraph = null;
+      return paragraphSize(formattedPara)*(fontSize+4);
    }
 
    /**
@@ -249,13 +265,17 @@ public class PDFPage implements IWritable {
     * @param parWidth Paragraph's width
     * @param lineHeight Line's height
     * @param parAlign Paragraph's alignment
+    * Return height of paragraph;
     */
-   public void addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
+   public int addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
                             int parWidth, int lineHeight, PredefinedAlignment parAlign) {
+      Iterable formattedPara = TextAdapter.formatParagraph(newText,
+         fontSize, fontType, parWidth, lineHeight, parAlign);
       ParagraphElement objParagraph = new ParagraphElement(TextAdapter.formatParagraph(newText,
          fontSize, fontType, parWidth, lineHeight, parAlign), fontSize, fontType, x, y);
       elements.add(objParagraph);
       objParagraph = null;
+      return paragraphSize(formattedPara)*(fontSize+4);
    }
 
    /**
@@ -269,14 +289,18 @@ public class PDFPage implements IWritable {
     * @param lineHeight Line's height
     * @param parAlign Paragraph's alignment
     * @param fontColor Font's color
+    * Return height of paragraph;
     */
-   public void addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
+   public int addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
                             int parWidth, int lineHeight, PredefinedAlignment parAlign,
                             PredefinedColor fontColor) {
+      Iterable formattedPara = TextAdapter.formatParagraph(newText, fontSize,
+         fontType, parWidth, lineHeight, parAlign);
       ParagraphElement objParagraph = new ParagraphElement(TextAdapter.formatParagraph(newText, fontSize,
          fontType, parWidth, lineHeight, parAlign), fontSize, fontType, x, y, fontColor);
       elements.add(objParagraph);
       objParagraph = null;
+      return paragraphSize(formattedPara)*(fontSize+4);
    }
 
    /**
@@ -286,13 +310,15 @@ public class PDFPage implements IWritable {
     * @param y Y position of the text in the page
     * @param fontType Font's type
     * @param fontSize Font's size
+    * Return height of paragraph;
     * @throws PDFIncorrectParagraghException
     */
-   public void addParagraph(Iterable newText, int x, int y, PredefinedFont fontType,
+   public int addParagraph(Iterable newText, int x, int y, PredefinedFont fontType,
                             int fontSize) throws PDFIncorrectParagraghException {
       ParagraphElement objParagraph = new ParagraphElement(newText, fontSize, fontType, x, y);
       elements.add(objParagraph);
       objParagraph = null;
+      return paragraphSize(newText)*(fontSize+4);
    }
 
    /**
@@ -707,4 +733,19 @@ public class PDFPage implements IWritable {
       return pageContent.toString();
    }
 
+   /**
+    *Get size of an iteable
+    * @param it input
+    * @return size of iterable
+    */
+   private int paragraphSize(Iterable<?> it) {
+      if (it instanceof Collection)
+         return ((Collection<?>)it).size();
+
+      // else iterate
+
+      int i = 0;
+      for (Object obj : it) i++;
+      return i;
+   }
 }
