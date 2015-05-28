@@ -11,6 +11,7 @@ import com.vmodev.pdfwriter.model.ImageElement;
 import com.vmodev.pdfwriter.model.LineElement;
 import com.vmodev.pdfwriter.model.PDFElement;
 import com.vmodev.pdfwriter.model.PDFFont;
+import com.vmodev.pdfwriter.model.PredefinedSize;
 import com.vmodev.pdfwriter.model.PDFTable;
 import com.vmodev.pdfwriter.model.PDFTableRowStyle;
 import com.vmodev.pdfwriter.model.ParagraphElement;
@@ -37,8 +38,8 @@ public class PDFPage implements IWritable {
    private ArrayList elements;
 
    public PDFPage() {
-      height = 792;
-      width = 612;
+      height = PredefinedSize.A4_HEIGHT;
+      width = PredefinedSize.A4_WIDTH;
       elements = new ArrayList();
    }
 

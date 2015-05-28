@@ -26,8 +26,27 @@ public class MainActivity extends ActionBarActivity {
             for (int i = 0; i <= 50; i++) {
                PDFPage page = document.addPage();
                page.addText("ABC ABC ABC ABC ABC ABC BAC", 70, 60, PredefinedFont.Helvetica, 10);
-               page.addParagraph("The Unity Asset Store is a great place to find models, scripts, audio and starter kits - but did you know you can also distribute and sell your work to a wide audience of Unity users ? If you're a skilled programmer, artist, designer, modeller or musician, you might want to look at our Asset Store submission guidelines !", 0,
-                  400, PredefinedFont.Courier, 10, 500);
+               int height = page.addParagraph("The Unity Asset Store is a great place to find " +
+                     "models, " +
+                     "scripts, audio and starter kits - but did you know you can also distribute and sell your work to a wide audience of Unity users ? If you're a skilled programmer, artist, designer, modeller or musician, you might want to look at our Asset Store submission guidelines !", 0,
+                  700, PredefinedFont.Courier, 10, 500);
+               int height2 = page.addParagraph("The Unity Asset Store is a great place to find " +
+                  "models, " +
+                  "scripts, audio and starter kits - but did you know you can also distribute and" +
+                  " sell your work to a wide audience of Unity users ? If you're a skilled " +
+                  "programmer, artist, designer, modeller or musician, you might want to look at " +
+                  "our Asset Store submission guidelines !",0,700-height,PredefinedFont.Helvetica,
+                  10,500);
+
+               int height3 = page.addParagraph("The Unity Asset Store is a great place to find " +
+                     "models, " +
+                     "scripts, audio and starter kits - but did you know you can also distribute and" +
+                     " sell your work to a wide audience of Unity users ? If you're a skilled " +
+                     "programmer, artist, designer, modeller or musician, you might want to look at " +
+                     "our Asset Store submission guidelines !",0,700-height - height2,PredefinedFont
+                     .Times,
+                  10,500);
+
             }
             try {
                document.createPDF(Environment.getExternalStorageDirectory() + "/KienPDFTest.pdf");
