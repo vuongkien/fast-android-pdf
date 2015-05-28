@@ -11,6 +11,7 @@ import com.vmodev.pdfwriter.PDFDocument;
 import com.vmodev.pdfwriter.PDFPage;
 import com.vmodev.pdfwriter.exception.PDFWritingErrorException;
 import com.vmodev.pdfwriter.model.PredefinedFont;
+import com.vmodev.pdfwriter.model.PredefinedSize;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -28,24 +29,29 @@ public class MainActivity extends ActionBarActivity {
                page.addText("ABC ABC ABC ABC ABC ABC BAC", 70, 60, PredefinedFont.Helvetica, 10);
                int height = page.addParagraph("The Unity Asset Store is a great place to find " +
                      "models, " +
-                     "scripts, audio and starter kits - but did you know you can also distribute and sell your work to a wide audience of Unity users ? If you're a skilled programmer, artist, designer, modeller or musician, you might want to look at our Asset Store submission guidelines !", 0,
-                  700, PredefinedFont.Courier, 10, 500);
+                     "scripts, audio and starter kits - but did you know you can also distribute " +
+                     "and sell your work to a wide audience of Unity users ? If you're a skilled" +
+                     " programmer, artist, designer, modeller or musician, you might want to " +
+                     "look at our Asset Store submission guidelines !", 20,
+                  700, PredefinedFont.Courier, 10, PredefinedSize.A4_WIDTH-40);
                int height2 = page.addParagraph("The Unity Asset Store is a great place to find " +
                   "models, " +
                   "scripts, audio and starter kits - but did you know you can also distribute and" +
                   " sell your work to a wide audience of Unity users ? If you're a skilled " +
                   "programmer, artist, designer, modeller or musician, you might want to look at " +
-                  "our Asset Store submission guidelines !",0,700-height,PredefinedFont.Helvetica,
-                  10,500);
+                  "our Asset Store submission guidelines !",20,700-height-20,PredefinedFont
+                     .Helvetica,
+                  10,PredefinedSize.A4_WIDTH-40);
 
                int height3 = page.addParagraph("The Unity Asset Store is a great place to find " +
                      "models, " +
                      "scripts, audio and starter kits - but did you know you can also distribute and" +
                      " sell your work to a wide audience of Unity users ? If you're a skilled " +
                      "programmer, artist, designer, modeller or musician, you might want to look at " +
-                     "our Asset Store submission guidelines !",0,700-height - height2,PredefinedFont
+                     "our Asset Store submission guidelines !",20,700-height - height2 -40,
+                  PredefinedFont
                      .Times,
-                  10,500);
+                  10,PredefinedSize.A4_WIDTH-40);
 
             }
             try {
