@@ -329,12 +329,14 @@ public class PDFPage implements IWritable {
     * @param fontType Font's type
     * @param fontSize Font's size
     * @param fontColor Font's color
+    * Return height of paragraph;
     */
-   public void addParagraph(Iterable newText, int x, int y, PredefinedFont fontType, int fontSize,
+   public int addParagraph(Iterable newText, int x, int y, PredefinedFont fontType, int fontSize,
                             PredefinedColor fontColor) {
       ParagraphElement objParagraph = new ParagraphElement(newText, fontSize, fontType, x, y, fontColor);
       elements.add(objParagraph);
       objParagraph = null;
+      return paragraphSize(newText)*(fontSize+4);
    }
 
    /**
