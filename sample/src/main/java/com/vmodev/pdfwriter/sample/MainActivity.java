@@ -9,7 +9,15 @@ import android.view.View;
 
 import com.vmodev.pdfwriter.PDFDocument;
 import com.vmodev.pdfwriter.PDFPage;
+import com.vmodev.pdfwriter.exception.PDFBadColumnIndexException;
+import com.vmodev.pdfwriter.exception.PDFIncorrectColumnException;
+import com.vmodev.pdfwriter.exception.PDFIncorrectRowException;
 import com.vmodev.pdfwriter.exception.PDFWritingErrorException;
+import com.vmodev.pdfwriter.model.PDFTable;
+import com.vmodev.pdfwriter.model.PDFTableColumn;
+import com.vmodev.pdfwriter.model.PDFTableHeader;
+import com.vmodev.pdfwriter.model.PDFTableRow;
+import com.vmodev.pdfwriter.model.PredefinedAlignment;
 import com.vmodev.pdfwriter.model.PredefinedFont;
 import com.vmodev.pdfwriter.model.PredefinedSize;
 
@@ -33,25 +41,63 @@ public class MainActivity extends ActionBarActivity {
                      "and sell your work to a wide audience of Unity users ? If you're a skilled" +
                      " programmer, artist, designer, modeller or musician, you might want to " +
                      "look at our Asset Store submission guidelines !", 20,
-                  700, PredefinedFont.Courier, 10, PredefinedSize.A4_WIDTH-40);
+                  700, PredefinedFont.Courier, 10, PredefinedSize.A4_WIDTH - 40);
                int height2 = page.addParagraph("The Unity Asset Store is a great place to find " +
-                  "models, " +
-                  "scripts, audio and starter kits - but did you know you can also distribute and" +
-                  " sell your work to a wide audience of Unity users ? If you're a skilled " +
-                  "programmer, artist, designer, modeller or musician, you might want to look at " +
-                  "our Asset Store submission guidelines !",20,700-height-20,PredefinedFont
+                     "models, " +
+                     "scripts, audio and starter kits - but did you know you can also distribute and" +
+                     " sell your work to a wide audience of Unity users ? If you're a skilled " +
+                     "programmer, artist, designer, modeller or musician, you might want to look at " +
+                     "our Asset Store submission guidelines !", 20, 700 - height - 20, PredefinedFont
                      .Helvetica,
-                  10,PredefinedSize.A4_WIDTH-40);
+                  10, PredefinedSize.A4_WIDTH - 40);
 
                int height3 = page.addParagraph("The Unity Asset Store is a great place to find " +
                      "models, " +
                      "scripts, audio and starter kits - but did you know you can also distribute and" +
                      " sell your work to a wide audience of Unity users ? If you're a skilled " +
                      "programmer, artist, designer, modeller or musician, you might want to look at " +
-                     "our Asset Store submission guidelines !",20,700-height - height2 -40,
+                     "our Asset Store submission guidelines !", 20, 700 - height - height2 - 40,
                   PredefinedFont
                      .Times,
-                  10,PredefinedSize.A4_WIDTH-40);
+                  10, PredefinedSize.A4_WIDTH - 40);
+               try {
+                  PDFTable pdfTable = new PDFTable();
+                  PDFTableHeader header = new PDFTableHeader();
+                  PDFTableColumn column1 = new PDFTableColumn("STT", PredefinedAlignment.Center, 100);
+                  PDFTableColumn column2 = new PDFTableColumn("Name", PredefinedAlignment.Center, 200);
+                  PDFTableColumn column3 = new PDFTableColumn("Salary", PredefinedAlignment.Center,
+                     200);
+                  header.addColumn(column1);
+                  header.addColumn(column2);
+                  header.addColumn(column3);
+                  pdfTable.setTableHeader(header);
+                  PDFTableRow row1 = new PDFTableRow(header);
+                  row1.setColumn(0, new PDFTableColumn("1", PredefinedAlignment.Center, 100));
+                  row1.setColumn(1, new PDFTableColumn("Kien", PredefinedAlignment.Center, 200));
+                  row1.setColumn(2, new PDFTableColumn("$1000", PredefinedAlignment.Center, 200));
+                  PDFTableRow row2 = new PDFTableRow(header);
+                  row2.setColumn(0, new PDFTableColumn("2", PredefinedAlignment.Center, 100));
+                  row2.setColumn(1, new PDFTableColumn("Kien", PredefinedAlignment.Center, 200));
+                  row2.setColumn(2, new PDFTableColumn("$1000", PredefinedAlignment.Center, 200));
+                  PDFTableRow row3 = new PDFTableRow(header);
+                  row3.setColumn(0, new PDFTableColumn("3", PredefinedAlignment.Center, 100));
+                  row3.setColumn(1, new PDFTableColumn("Kien", PredefinedAlignment.Center, 200));
+                  row3.setColumn(2, new PDFTableColumn("$1000", PredefinedAlignment.Center, 200));
+                  PDFTableRow row4 = new PDFTableRow(header);
+                  row4.setColumn(1, new PDFTableColumn("Kien", PredefinedAlignment.Center, 200));
+                  row4.setColumn(2, new PDFTableColumn("$1000", PredefinedAlignment.Center, 200));
+                  PDFTableRow row5 = new PDFTableRow(header);
+                  row5.setColumn(2, new PDFTableColumn("The Unity Asset Store is a great place to find ", PredefinedAlignment.Center, 200));
+                  pdfTable.addRow(row1);
+                  pdfTable.addRow(row2);
+                  pdfTable.addRow(row3);
+                  pdfTable.addRow(row4);
+                  pdfTable.addRow(row5);
+                  page.addTable(pdfTable, 20, 700 - height - height2 - height3 - 60);
+               } catch (PDFIncorrectColumnException | PDFBadColumnIndexException
+                  | PDFIncorrectRowException e) {
+                  e.printStackTrace();
+               }
 
             }
             try {

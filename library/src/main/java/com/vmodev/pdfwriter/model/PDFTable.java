@@ -31,19 +31,38 @@ public class PDFTable implements Iterable {
       cellpadding = 5;
    }
 
+   /**
+    * Get row by index
+    * @param index index of row
+    * @return TableRow
+    */
    public PDFTableRow getTableRow(int index){
       return (PDFTableRow)rows.get(index);
    }
 
+   /**
+    *
+    * @return row size
+    */
    public int rowCount(){
       return rows.size();
    }
 
+
+   /**
+    * create new row
+    * @return new row
+    */
    public PDFTableRow createRow()
    {
       return new PDFTableRow(tableHeader);
    }
 
+   /**
+    * Add new row to table
+    * @param newRow new row
+    * @throws PDFIncorrectRowException
+    */
    public void addRow(PDFTableRow newRow) throws PDFIncorrectRowException {
       if (newRow instanceof PDFTableRow) {
          rows.add(newRow);

@@ -14,6 +14,12 @@ public class PDFTableColumn implements IWritable {
    public PDFTableColumn() {
    }
 
+   /**
+    * Class constructor
+    * @param columnValue Column value
+    * @param columnAlign Alignment Style
+    * @param columnSize Column size
+    */
    public PDFTableColumn(String columnValue, PredefinedAlignment columnAlign, int columnSize) {
       this.columnValue = columnValue;
       this._columnAlign = columnAlign;

@@ -18,6 +18,11 @@ public class PDFInfo implements IWritable{
    private String title;
    private String author;
 
+   /**
+    * Class's Constructor
+    * @param title Document's Title
+    * @param author Document's Author
+    */
    public PDFInfo(String title, String author)
    {
       this.title = title;
@@ -55,7 +60,7 @@ public class PDFInfo implements IWritable{
       strInfo.append("<<" + (char)13 + (char)10);
       strInfo.append("/Title (" + title + ")" + (char)13 + (char)10);
       strInfo.append("/Author (" + author + ")" + (char)13 + (char)10);
-      strInfo.append("/Creator (sharpPDF)" + (char)13 + (char)10);
+      strInfo.append("/Creator (vmo-PDF)" + (char)13 + (char)10);
       strInfo.append("/CreationDate (" + String.valueOf(Calendar.getInstance().get(Calendar.YEAR)) +
          String.valueOf(Calendar.getInstance().get(Calendar.MONTH)) + String.valueOf(Calendar
          .getInstance().get(Calendar.DATE)) + ")" + (char)13 +
