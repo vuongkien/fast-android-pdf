@@ -193,6 +193,12 @@ public class PDFColor {
       color = newColor;
    }
 
+   public PDFColor(String rColor, String gColor, String bColor){
+      this.rColor = rColor;
+      this.gColor = gColor;
+      this.bColor = bColor;
+   }
+
    /**
     * Method that validates the color
     * @return Boolean value that represents the validity of the color

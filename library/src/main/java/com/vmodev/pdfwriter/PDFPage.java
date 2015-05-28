@@ -1,5 +1,7 @@
 package com.vmodev.pdfwriter;
 
+import android.graphics.Bitmap;
+
 import com.vmodev.pdfwriter.adapter.TextAdapter;
 import com.vmodev.pdfwriter.exception.PDFBadColumnIndexException;
 import com.vmodev.pdfwriter.exception.PDFImageIOException;
@@ -11,7 +13,6 @@ import com.vmodev.pdfwriter.model.ImageElement;
 import com.vmodev.pdfwriter.model.LineElement;
 import com.vmodev.pdfwriter.model.PDFElement;
 import com.vmodev.pdfwriter.model.PDFFont;
-import com.vmodev.pdfwriter.model.PredefinedSize;
 import com.vmodev.pdfwriter.model.PDFTable;
 import com.vmodev.pdfwriter.model.PDFTableRowStyle;
 import com.vmodev.pdfwriter.model.ParagraphElement;
@@ -19,6 +20,7 @@ import com.vmodev.pdfwriter.model.PredefinedAlignment;
 import com.vmodev.pdfwriter.model.PredefinedColor;
 import com.vmodev.pdfwriter.model.PredefinedFont;
 import com.vmodev.pdfwriter.model.PredefinedLineStyle;
+import com.vmodev.pdfwriter.model.PredefinedSize;
 import com.vmodev.pdfwriter.model.RectangleElement;
 import com.vmodev.pdfwriter.model.TextElement;
 
@@ -45,8 +47,9 @@ public class PDFPage implements IWritable {
 
    /**
     * Class's Constructor
+    *
     * @param newHeight Page's height
-    * @param newWidth Page's width
+    * @param newWidth  Page's width
     */
    public PDFPage(int newHeight, int newWidth) {
       height = newHeight;
@@ -97,9 +100,49 @@ public class PDFPage implements IWritable {
 
    /**
     * Method that adds an image to the page object
+    *
+    * @param bitmap Bitmap input
+    * @param X      X position of the image in the page
+    * @param Y      Y position of the image in the page
+    */
+   public void addImage(Bitmap bitmap, int X, int Y) {
+      ImageElement objImage = null;
+      try {
+         objImage = new ImageElement(bitmap, X, Y);
+      } catch (PDFImageIOException e) {
+         e.printStackTrace();
+      }
+      elements.add(objImage);
+      objImage = null;
+   }
+
+   /**
+    * Method that adds an image to the page object
+    *
+    * @param bitmap Bitmap input
+    * @param X      X position of the image in the page
+    * @param Y      Y position of the image in the page
+    * @param height new height
+    * @param width  new width
+    */
+   public void addImage(Bitmap bitmap, int X, int Y, int height, int width) {
+      ImageElement objImage = null;
+      try {
+         objImage = new ImageElement(bitmap, X, Y, height, width);
+      } catch (PDFImageIOException e) {
+         e.printStackTrace();
+      }
+      elements.add(objImage);
+      objImage = null;
+   }
+
+
+   /**
+    * Method that adds an image to the page object
+    *
     * @param newImgSource Full image path
-    * @param X X position of the image in the page
-    * @param Y Y position of the image in the page
+    * @param X            X position of the image in the page
+    * @param Y            Y position of the image in the page
     * @throws PDFImageNotFoundException
     * @throws PDFImageIOException
     */
@@ -116,14 +159,14 @@ public class PDFPage implements IWritable {
       }
    }
 
-
    /**
     * Method that adds an image to the page object
+    *
     * @param newImgSource Full image path
-    * @param X X position of the image in the page
-    * @param Y Y position of the image in the page
-    * @param height New height of the image
-    * @param width New width of the image
+    * @param X            X position of the image in the page
+    * @param Y            Y position of the image in the page
+    * @param height       New height of the image
+    * @param width        New width of the image
     * @throws PDFImageNotFoundException
     * @throws PDFImageIOException
     */
@@ -142,9 +185,10 @@ public class PDFPage implements IWritable {
 
    /**
     * Method that adds a text element to the page object
-    * @param newText Text
-    * @param X X position of the text in the page
-    * @param Y Y position of the text in the page
+    *
+    * @param newText  Text
+    * @param X        X position of the text in the page
+    * @param Y        Y position of the text in the page
     * @param fontType Font's type
     * @param fontSize Font's size
     */
@@ -156,11 +200,12 @@ public class PDFPage implements IWritable {
 
    /**
     * Method that adds a text element to the page object
-    * @param newText Text
-    * @param X X position of the text in the page
-    * @param Y Y position of the text in the page
-    * @param fontType Font's type
-    * @param fontSize Font's size
+    *
+    * @param newText   Text
+    * @param X         X position of the text in the page
+    * @param Y         Y position of the text in the page
+    * @param fontType  Font's type
+    * @param fontSize  Font's size
     * @param fontColor Font's color
     */
    public void addText(String newText, int X, int Y, PredefinedFont fontType, int fontSize,
@@ -172,179 +217,188 @@ public class PDFPage implements IWritable {
 
    /**
     * Method that adds a text element to the page object
-    * @param newText Text
-    * @param x X position of the text in the page
-    * @param y Y position of the text in the page
+    *
+    * @param newText  Text
+    * @param x        X position of the text in the page
+    * @param y        Y position of the text in the page
     * @param fontType Font's type
     * @param parWidth Paragraph's width
-    * Return height of paragraph;
+    *                 Return height of paragraph;
     */
    public int addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
-                            int parWidth) {
+                           int parWidth) {
       Iterable formattedPara = TextAdapter.formatParagraph(newText,
          fontSize, fontType, parWidth);
       ParagraphElement objParagraph = new ParagraphElement(formattedPara, fontSize, fontType, x, y);
       elements.add(objParagraph);
       objParagraph = null;
-      return paragraphSize(formattedPara)*(fontSize+4);
+      return paragraphSize(formattedPara) * (fontSize + 4);
    }
 
    /**
     * Method that adds a text element to the page object
-    * @param newText Text
-    * @param x X position of the text in the page
-    * @param y Y position of the text in the page
-    * @param fontType Font's type
-    * @param fontSize Font's size
-    * @param parWidth Paragraph's width
+    *
+    * @param newText   Text
+    * @param x         X position of the text in the page
+    * @param y         Y position of the text in the page
+    * @param fontType  Font's type
+    * @param fontSize  Font's size
+    * @param parWidth  Paragraph's width
     * @param fontColor Font's color
-    * Return height of paragraph;
+    *                  Return height of paragraph;
     */
    public int addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
-                            int parWidth, PredefinedColor fontColor) {
+                           int parWidth, PredefinedColor fontColor) {
       Iterable formattedPara = TextAdapter.formatParagraph(newText,
          fontSize, fontType, parWidth);
       ParagraphElement objParagraph = new ParagraphElement(TextAdapter.formatParagraph(newText,
          fontSize, fontType, parWidth), fontSize, fontType, x, y, fontColor);
       elements.add(objParagraph);
       objParagraph = null;
-      return paragraphSize(formattedPara)*(fontSize+4);
+      return paragraphSize(formattedPara) * (fontSize + 4);
    }
 
    /**
     * Method that adds a text element to the page object
-    * @param newText Text
-    * @param x X position of the text in the page
-    * @param y Y position of the text in the page
-    * @param fontType Font's type
-    * @param fontSize Font's size
-    * @param parWidth Paragraph's width
+    *
+    * @param newText    Text
+    * @param x          X position of the text in the page
+    * @param y          Y position of the text in the page
+    * @param fontType   Font's type
+    * @param fontSize   Font's size
+    * @param parWidth   Paragraph's width
     * @param lineHeight Line's height
-    * Return height of paragraph;
+    *                   Return height of paragraph;
     */
    public int addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
-                            int parWidth, int lineHeight) {
+                           int parWidth, int lineHeight) {
       Iterable formattedPara = TextAdapter.formatParagraph(newText,
          fontSize, fontType, parWidth, lineHeight);
       ParagraphElement objParagraph = new ParagraphElement(TextAdapter.formatParagraph(newText,
          fontSize, fontType, parWidth, lineHeight), fontSize, fontType, x, y);
       elements.add(objParagraph);
       objParagraph = null;
-      return paragraphSize(formattedPara)*(fontSize+4);
+      return paragraphSize(formattedPara) * (fontSize + 4);
    }
 
    /**
     * Method that adds a text element to the page object
-    * @param newText Text
-    * @param x X position of the text in the page
-    * @param y Y position of the text in the page
-    * @param fontType Font's type
-    * @param fontSize Font's size
-    * @param parWidth Paragraph's width
+    *
+    * @param newText    Text
+    * @param x          X position of the text in the page
+    * @param y          Y position of the text in the page
+    * @param fontType   Font's type
+    * @param fontSize   Font's size
+    * @param parWidth   Paragraph's width
     * @param lineHeight Line's height
-    * @param fontColor Font's color
-    * Return height of paragraph;
+    * @param fontColor  Font's color
+    *                   Return height of paragraph;
     */
    public int addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
-                            int parWidth, int lineHeight, PredefinedColor fontColor) {
+                           int parWidth, int lineHeight, PredefinedColor fontColor) {
       Iterable formattedPara = TextAdapter.formatParagraph(newText,
          fontSize, fontType, parWidth, lineHeight);
       ParagraphElement objParagraph = new ParagraphElement(TextAdapter.formatParagraph(newText,
          fontSize, fontType, parWidth, lineHeight), fontSize, fontType, x, y, fontColor);
       elements.add(objParagraph);
       objParagraph = null;
-      return paragraphSize(formattedPara)*(fontSize+4);
+      return paragraphSize(formattedPara) * (fontSize + 4);
    }
 
    /**
     * Method that adds a text element to the page object
-    * @param newText Text
-    * @param x X position of the text in the page
-    * @param y Y position of the text in the page
-    * @param fontType Font's type
-    * @param fontSize Font's size
-    * @param parWidth Paragraph's width
+    *
+    * @param newText    Text
+    * @param x          X position of the text in the page
+    * @param y          Y position of the text in the page
+    * @param fontType   Font's type
+    * @param fontSize   Font's size
+    * @param parWidth   Paragraph's width
     * @param lineHeight Line's height
-    * @param parAlign Paragraph's alignment
-    * Return height of paragraph;
+    * @param parAlign   Paragraph's alignment
+    *                   Return height of paragraph;
     */
    public int addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
-                            int parWidth, int lineHeight, PredefinedAlignment parAlign) {
+                           int parWidth, int lineHeight, PredefinedAlignment parAlign) {
       Iterable formattedPara = TextAdapter.formatParagraph(newText,
          fontSize, fontType, parWidth, lineHeight, parAlign);
       ParagraphElement objParagraph = new ParagraphElement(TextAdapter.formatParagraph(newText,
          fontSize, fontType, parWidth, lineHeight, parAlign), fontSize, fontType, x, y);
       elements.add(objParagraph);
       objParagraph = null;
-      return paragraphSize(formattedPara)*(fontSize+4);
+      return paragraphSize(formattedPara) * (fontSize + 4);
    }
 
    /**
     * Method that adds a text element to the page object
-    * @param newText Text
-    * @param x X position of the text in the page
-    * @param y Y position of the text in the page
-    * @param fontType Font's type
-    * @param fontSize Font's size
-    * @param parWidth Paragraph's width
+    *
+    * @param newText    Text
+    * @param x          X position of the text in the page
+    * @param y          Y position of the text in the page
+    * @param fontType   Font's type
+    * @param fontSize   Font's size
+    * @param parWidth   Paragraph's width
     * @param lineHeight Line's height
-    * @param parAlign Paragraph's alignment
-    * @param fontColor Font's color
-    * Return height of paragraph;
+    * @param parAlign   Paragraph's alignment
+    * @param fontColor  Font's color
+    *                   Return height of paragraph;
     */
    public int addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
-                            int parWidth, int lineHeight, PredefinedAlignment parAlign,
-                            PredefinedColor fontColor) {
+                           int parWidth, int lineHeight, PredefinedAlignment parAlign,
+                           PredefinedColor fontColor) {
       Iterable formattedPara = TextAdapter.formatParagraph(newText, fontSize,
          fontType, parWidth, lineHeight, parAlign);
       ParagraphElement objParagraph = new ParagraphElement(TextAdapter.formatParagraph(newText, fontSize,
          fontType, parWidth, lineHeight, parAlign), fontSize, fontType, x, y, fontColor);
       elements.add(objParagraph);
       objParagraph = null;
-      return paragraphSize(formattedPara)*(fontSize+4);
+      return paragraphSize(formattedPara) * (fontSize + 4);
    }
 
    /**
     * Method that adds a text element to the page object
-    * @param newText Interface Iterable that contains paragraphLine objects
-    * @param x X position of the text in the page
-    * @param y Y position of the text in the page
+    *
+    * @param newText  Interface Iterable that contains paragraphLine objects
+    * @param x        X position of the text in the page
+    * @param y        Y position of the text in the page
     * @param fontType Font's type
     * @param fontSize Font's size
-    * Return height of paragraph;
+    *                 Return height of paragraph;
     * @throws PDFIncorrectParagraghException
     */
    public int addParagraph(Iterable newText, int x, int y, PredefinedFont fontType,
-                            int fontSize) throws PDFIncorrectParagraghException {
+                           int fontSize) throws PDFIncorrectParagraghException {
       ParagraphElement objParagraph = new ParagraphElement(newText, fontSize, fontType, x, y);
       elements.add(objParagraph);
       objParagraph = null;
-      return paragraphSize(newText)*(fontSize+4);
+      return paragraphSize(newText) * (fontSize + 4);
    }
 
    /**
     * Method that adds a text element to the page object
-    * @param newText Interface Iterable that contains paragraphLine objects
-    * @param x X position of the text in the page
-    * @param y Y position of the text in the page
-    * @param fontType Font's type
-    * @param fontSize Font's size
+    *
+    * @param newText   Interface Iterable that contains paragraphLine objects
+    * @param x         X position of the text in the page
+    * @param y         Y position of the text in the page
+    * @param fontType  Font's type
+    * @param fontSize  Font's size
     * @param fontColor Font's color
-    * Return height of paragraph;
+    *                  Return height of paragraph;
     */
    public int addParagraph(Iterable newText, int x, int y, PredefinedFont fontType, int fontSize,
-                            PredefinedColor fontColor) {
+                           PredefinedColor fontColor) {
       ParagraphElement objParagraph = new ParagraphElement(newText, fontSize, fontType, x, y, fontColor);
       elements.add(objParagraph);
       objParagraph = null;
-      return paragraphSize(newText)*(fontSize+4);
+      return paragraphSize(newText) * (fontSize + 4);
    }
 
    /**
     * Method that adds a table to the page object
+    *
     * @param newTable The table object
-    * @param x X position of the table in the page
-    * @param y Y position of the table in the page
+    * @param x        X position of the table in the page
+    * @param y        Y position of the table in the page
     * @throws PDFBadColumnIndexException
     */
    public void addTable(PDFTable newTable, int x, int y) throws PDFBadColumnIndexException {
@@ -415,7 +469,7 @@ public class PDFPage implements IWritable {
          for (j = 0; j < newTable.getTableHeader().getColumnsCount(); j++) {
             textWord = TextAdapter.cropWord(newTable.getTableRow(i).getColumn(j).getColumnValue(),
                myStyle.getFontSize(), myStyle.getFontType(), newTable.getTableHeader().getColumn(j)
-               .getColumnSize() - (newTable.getCellpadding() * 2));
+                  .getColumnSize() - (newTable.getCellpadding() * 2));
             switch (newTable.getTableRow(i).getColumn(j).get_columnAlign()) {
                case Left:
                default:
@@ -447,8 +501,9 @@ public class PDFPage implements IWritable {
 
    /**
     * Method that adds a line to the page object
-    * @param X X position of the line in the page
-    * @param Y Y position of the line in the page
+    *
+    * @param X  X position of the line in the page
+    * @param Y  Y position of the line in the page
     * @param X1 X1 position of the line in the page
     * @param Y1 Y1 position of the line in the page
     */
@@ -460,10 +515,11 @@ public class PDFPage implements IWritable {
 
    /**
     * Method that adds a line to the page object
-    * @param X X position of the line in the page
-    * @param Y Y position of the line in the page
-    * @param X1 X1 position of the line in the page
-    * @param Y1 Y1 position of the line in the page
+    *
+    * @param X         X position of the line in the page
+    * @param Y         Y position of the line in the page
+    * @param X1        X1 position of the line in the page
+    * @param Y1        Y1 position of the line in the page
     * @param lineColor Line's color
     */
    public void drawLine(int X, int Y, int X1, int Y1, PredefinedColor lineColor) {
@@ -474,10 +530,11 @@ public class PDFPage implements IWritable {
 
    /**
     * Method that adds a line to the page object
-    * @param X X position of the line in the page
-    * @param Y Y position of the line in the page
-    * @param X1 X1 position of the line in the page
-    * @param Y1 Y1 position of the line in the page
+    *
+    * @param X         X position of the line in the page
+    * @param Y         Y position of the line in the page
+    * @param X1        X1 position of the line in the page
+    * @param Y1        Y1 position of the line in the page
     * @param lineStyle Line's style
     */
    public void drawLine(int X, int Y, int X1, int Y1, PredefinedLineStyle lineStyle) {
@@ -488,10 +545,11 @@ public class PDFPage implements IWritable {
 
    /**
     * Method that adds a line to the page object
-    * @param X X position of the line in the page
-    * @param Y Y position of the line in the page
-    * @param X1 X1 position of the line in the page
-    * @param Y1 Y1 position of the line in the page
+    *
+    * @param X         X position of the line in the page
+    * @param Y         Y position of the line in the page
+    * @param X1        X1 position of the line in the page
+    * @param Y1        Y1 position of the line in the page
     * @param lineColor Line's color
     * @param lineWidth Line's size
     */
@@ -503,10 +561,11 @@ public class PDFPage implements IWritable {
 
    /**
     * Method that adds a line to the page object
-    * @param X X position of the line in the page
-    * @param Y Y position of the line in the page
-    * @param X1 X1 position of the line in the page
-    * @param Y1 Y1 position of the line in the page
+    *
+    * @param X         X position of the line in the page
+    * @param Y         Y position of the line in the page
+    * @param X1        X1 position of the line in the page
+    * @param Y1        Y1 position of the line in the page
     * @param lineStyle Line's style
     * @param lineWidth Line's size
     */
@@ -518,10 +577,11 @@ public class PDFPage implements IWritable {
 
    /**
     * Method that adds a line to the page object
-    * @param X X position of the line in the page
-    * @param Y Y position of the line in the page
-    * @param X1 X1 position of the line in the page
-    * @param Y1 Y1 position of the line in the page
+    *
+    * @param X         X position of the line in the page
+    * @param Y         Y position of the line in the page
+    * @param X1        X1 position of the line in the page
+    * @param Y1        Y1 position of the line in the page
     * @param lineStyle Line's style
     * @param lineColor Line's color
     */
@@ -534,10 +594,11 @@ public class PDFPage implements IWritable {
 
    /**
     * Method that adds a line to the page object
-    * @param X X position of the line in the page
-    * @param Y Y position of the line in the page
-    * @param X1 X1 position of the line in the page
-    * @param Y1 Y1 position of the line in the page
+    *
+    * @param X         X position of the line in the page
+    * @param Y         Y position of the line in the page
+    * @param X1        X1 position of the line in the page
+    * @param Y1        Y1 position of the line in the page
     * @param lineStyle Line's style
     * @param lineColor Line's color
     * @param lineWidth Line's size
@@ -551,12 +612,13 @@ public class PDFPage implements IWritable {
 
    /**
     * Method that adds a rectangle to the page object
-    * @param X X position of the rectangle in the page
-    * @param Y Y position of the rectangle in the page
-    * @param X1 X1 position of the rectangle in the page
-    * @param Y1 Y1 position of the rectangle in the page
+    *
+    * @param X           X position of the rectangle in the page
+    * @param Y           Y position of the rectangle in the page
+    * @param X1          X1 position of the rectangle in the page
+    * @param Y1          Y1 position of the rectangle in the page
     * @param strokeColor Stroke color
-    * @param fillColor Fill color
+    * @param fillColor   Fill color
     */
    public void drawRectangle(int X, int Y, int X1, int Y1, PredefinedColor strokeColor,
                              PredefinedColor fillColor) {
@@ -567,12 +629,13 @@ public class PDFPage implements IWritable {
 
    /**
     * Method that adds a rectangle to the page object
-    * @param X X position of the rectangle in the page
-    * @param Y Y position of the rectangle in the page
-    * @param X1 X1 position of the rectangle in the page
-    * @param Y1 Y1 position of the rectangle in the page
+    *
+    * @param X           X position of the rectangle in the page
+    * @param Y           Y position of the rectangle in the page
+    * @param X1          X1 position of the rectangle in the page
+    * @param Y1          Y1 position of the rectangle in the page
     * @param strokeColor Stroke color
-    * @param fillColor Fill color
+    * @param fillColor   Fill color
     * @param borderWidth Border's size
     */
    public void drawRectangle(int X, int Y, int X1, int Y1, PredefinedColor strokeColor, PredefinedColor fillColor, int
@@ -584,12 +647,13 @@ public class PDFPage implements IWritable {
 
    /**
     * Method that adds a rectangle to the page object
-    * @param X X position of the rectangle in the page
-    * @param Y Y position of the rectangle in the page
-    * @param X1 X1 position of the rectangle in the page
-    * @param Y1 Y1 position of the rectangle in the page
+    *
+    * @param X           X position of the rectangle in the page
+    * @param Y           Y position of the rectangle in the page
+    * @param X1          X1 position of the rectangle in the page
+    * @param Y1          Y1 position of the rectangle in the page
     * @param strokeColor Stroke color
-    * @param fillColor Fill color
+    * @param fillColor   Fill color
     * @param borderStyle Border's style
     */
    public void drawRectangle(int X, int Y, int X1, int Y1, PredefinedColor strokeColor,
@@ -601,12 +665,13 @@ public class PDFPage implements IWritable {
 
    /**
     * Method that adds a rectangle to the page object
-    * @param X X position of the rectangle in the page
-    * @param Y Y position of the rectangle in the page
-    * @param X1 X1 position of the rectangle in the page
-    * @param Y1 Y1 position of the rectangle in the page
+    *
+    * @param X           X position of the rectangle in the page
+    * @param Y           Y position of the rectangle in the page
+    * @param X1          X1 position of the rectangle in the page
+    * @param Y1          Y1 position of the rectangle in the page
     * @param strokeColor Stroke color
-    * @param fillColor Fill color
+    * @param fillColor   Fill color
     * @param borderWidth Border's width
     * @param borderStyle Border's style
     */
@@ -619,11 +684,12 @@ public class PDFPage implements IWritable {
 
    /**
     * Method that adds a circle to the page object
-    * @param X X position of the circle in the page
-    * @param Y Y position of the circle in the page
-    * @param ray Circle's ray
+    *
+    * @param X           X position of the circle in the page
+    * @param Y           Y position of the circle in the page
+    * @param ray         Circle's ray
     * @param strokeColor Border's color
-    * @param fillColor fill color
+    * @param fillColor   fill color
     */
    public void drawCircle(int X, int Y, int ray, PredefinedColor strokeColor, PredefinedColor
       fillColor) {
@@ -634,11 +700,12 @@ public class PDFPage implements IWritable {
 
    /**
     * Method that adds a circle to the page object
-    * @param X X position of the circle in the page
-    * @param Y Y position of the circle in the page
-    * @param ray Circle's ray
+    *
+    * @param X           X position of the circle in the page
+    * @param Y           Y position of the circle in the page
+    * @param ray         Circle's ray
     * @param strokeColor Border's color
-    * @param fillColor fill color
+    * @param fillColor   fill color
     * @param borderWidth Border's size
     */
    public void drawCircle(int X, int Y, int ray, PredefinedColor strokeColor, PredefinedColor
@@ -650,11 +717,12 @@ public class PDFPage implements IWritable {
 
    /**
     * Method that adds a circle to the page object
-    * @param X X position of the circle in the page
-    * @param Y Y position of the circle in the page
-    * @param ray Circle's ray
+    *
+    * @param X           X position of the circle in the page
+    * @param Y           Y position of the circle in the page
+    * @param ray         Circle's ray
     * @param strokeColor Border's color
-    * @param fillColor fill color
+    * @param fillColor   fill color
     * @param borderStyle Border's style
     */
    public void drawCircle(int X, int Y, int ray, PredefinedColor strokeColor, PredefinedColor
@@ -666,11 +734,12 @@ public class PDFPage implements IWritable {
 
    /**
     * Method that adds a circle to the page object
-    * @param X X position of the circle in the page
-    * @param Y Y position of the circle in the page
-    * @param ray Circle's ray
+    *
+    * @param X           X position of the circle in the page
+    * @param Y           Y position of the circle in the page
+    * @param ray         Circle's ray
     * @param strokeColor Border's color
-    * @param fillColor fill color
+    * @param fillColor   fill color
     * @param borderStyle Border's style
     * @param borderWidth Border's size
     */
@@ -683,6 +752,7 @@ public class PDFPage implements IWritable {
 
    /**
     * Internal method that adds fonts object to the page object
+    *
     * @param fonts ArrayList of fonts object
     */
    void addFonts(ArrayList fonts) {
@@ -700,50 +770,48 @@ public class PDFPage implements IWritable {
       StringBuilder pageContent = new StringBuilder();
       StringBuilder objContent = new StringBuilder();
       StringBuilder imgContent = new StringBuilder();
-      pageContent.append(String.valueOf(objectID) + " 0 obj" + (char)13 + (char)10);
-      pageContent.append("<<" + (char)13 + (char)10);
-      pageContent.append("/Type /Page" + (char)13 + (char)10);
-      pageContent.append("/Parent " + String.valueOf(pageTreeID) + " 0 R" + (char)13 +
-         (char)10);
-      pageContent.append("/Resources <</Font <<" + fontObjectsReference + ">>" + (char)13 +
-         (char)10);
-      for (Object item : elements)
-      {
-         objContent.append(String.valueOf(((PDFElement)item).getObjectID()) + " 0 R ");
-         if (item.getClass().getName().contains("ImageElement"))
-         {
-            imgContent.append("/I" + String.valueOf(((ImageElement)item).getxObjectID()) + " "
-               + String.valueOf(((ImageElement)item).getxObjectID()) + " 0 R ");
+      pageContent.append(String.valueOf(objectID) + " 0 obj" + (char) 13 + (char) 10);
+      pageContent.append("<<" + (char) 13 + (char) 10);
+      pageContent.append("/Type /Page" + (char) 13 + (char) 10);
+      pageContent.append("/Parent " + String.valueOf(pageTreeID) + " 0 R" + (char) 13 +
+         (char) 10);
+      pageContent.append("/Resources <</Font <<" + fontObjectsReference + ">>" + (char) 13 +
+         (char) 10);
+      for (Object item : elements) {
+         objContent.append(String.valueOf(((PDFElement) item).getObjectID()) + " 0 R ");
+         if (item.getClass().getName().contains("ImageElement")) {
+            imgContent.append("/I" + String.valueOf(((ImageElement) item).getxObjectID()) + " "
+               + String.valueOf(((ImageElement) item).getxObjectID()) + " 0 R ");
          }
       }
-      if (imgContent.length() > 0)
-      {
-         pageContent.append("/XObject <<" + imgContent.toString() + ">>" + (char)13 + (char)10);
+      if (imgContent.length() > 0) {
+         pageContent.append("/XObject <<" + imgContent.toString() + ">>" + (char) 13 + (char) 10);
       }
-      pageContent.append(">>" + (char)13 + (char)10);
-      pageContent.append("/MediaBox [0 0 " + width + " " + height + "]" + (char)13 +
-         (char)10);
-      pageContent.append("/CropBox [0 0 " + width + " " + height + "]" + (char)13 + (char)10);
-      pageContent.append("/Rotate 0" + (char)13 + (char)10);
-      pageContent.append("/ProcSet [/PDF /Text /ImageC]" + (char)13 + (char)10);
+      pageContent.append(">>" + (char) 13 + (char) 10);
+      pageContent.append("/MediaBox [0 0 " + width + " " + height + "]" + (char) 13 +
+         (char) 10);
+      pageContent.append("/CropBox [0 0 " + width + " " + height + "]" + (char) 13 + (char) 10);
+      pageContent.append("/Rotate 0" + (char) 13 + (char) 10);
+      pageContent.append("/ProcSet [/PDF /Text /ImageC]" + (char) 13 + (char) 10);
       if (objContent.length() > 0) {
-         pageContent.append("/Contents [" + objContent.toString() + "]" + (char)13 + (char)10);
+         pageContent.append("/Contents [" + objContent.toString() + "]" + (char) 13 + (char) 10);
       }
-      pageContent.append(">>" + (char)13 + (char)10);
-      pageContent.append("endobj" + (char)13 + (char)10);
+      pageContent.append(">>" + (char) 13 + (char) 10);
+      pageContent.append("endobj" + (char) 13 + (char) 10);
       objContent = null;
       imgContent = null;
       return pageContent.toString();
    }
 
    /**
-    *Get size of an iteable
+    * Get size of an iteable
+    *
     * @param it input
     * @return size of iterable
     */
    private int paragraphSize(Iterable<?> it) {
       if (it instanceof Collection)
-         return ((Collection<?>)it).size();
+         return ((Collection<?>) it).size();
 
       // else iterate
 

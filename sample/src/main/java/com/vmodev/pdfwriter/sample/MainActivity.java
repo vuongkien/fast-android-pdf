@@ -100,6 +100,8 @@ public class MainActivity extends ActionBarActivity {
                }
 
             }
+            PDFPage pdfPage2 = document.addPage(PredefinedSize.A4_WIDTH,PredefinedSize.A4_HEIGHT);
+            pdfPage2.addText("ABC ABC ABC ABC ABC ABC BAC", 70, 60, PredefinedFont.Helvetica, 10);
             try {
                document.createPDF(Environment.getExternalStorageDirectory() + "/KienPDFTest.pdf");
             } catch (PDFWritingErrorException e) {

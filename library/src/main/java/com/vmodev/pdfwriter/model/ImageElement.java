@@ -17,7 +17,7 @@ import java.io.IOException;
 /**
  * A Class that implements a PDF image.
  */
-public class ImageElement extends PDFElement{
+public class ImageElement extends PDFElement {
 
    private int height;
    private int width;
@@ -25,6 +25,7 @@ public class ImageElement extends PDFElement{
    private int newWidth;
    private byte[] content;
    private int xObjectID;
+
 
    public byte[] getContent() {
       return content;
@@ -38,9 +39,65 @@ public class ImageElement extends PDFElement{
       this.xObjectID = xObjectID;
    }
 
+   /**
+    * Class's Constructor
+    *
+    * @param bitmap    bitmap input
+    * @param newCoordX X position in the PDF document
+    * @param newCoordY Y position in the PDF document
+    * @throws PDFImageIOException
+    */
+   public ImageElement(Bitmap bitmap, int newCoordX, int newCoordY) throws PDFImageIOException {
+      ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+      bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+      this.content = new byte[outStream.size()];
+      this.content = outStream.toByteArray();
+      this.height = bitmap.getHeight();
+      this.width = bitmap.getWidth();
+      this.coordX = newCoordX;
+      this.coordY = newCoordY;
+      try {
+         outStream.close();
+      } catch (IOException ex) {
+         throw new PDFImageIOException("Get bitmap error ", ex);
+      }
+      outStream = null;
+      bitmap = null;
+   }
+
+   /**
+    * Class's Constructor
+    *
+    * @param bitmap    bitmap input
+    * @param newCoordX X position in the PDF document
+    * @param newCoordY Y position in the PDF document
+    * @throws PDFImageIOException
+    */
+   public ImageElement(Bitmap bitmap, int newCoordX, int newCoordY, int newHeight, int
+      newWidth) throws PDFImageIOException {
+      ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+      bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+      this.content = new byte[outStream.size()];
+      this.content = outStream.toByteArray();
+      this.height = bitmap.getHeight();
+      this.width = bitmap.getWidth();
+      this.coordX = newCoordX;
+      this.coordY = newCoordY;
+      this.newHeight = newHeight;
+      this.newWidth = newWidth;
+      try {
+         outStream.close();
+      } catch (IOException ex) {
+         throw new PDFImageIOException("Get bitmap error ", ex);
+      }
+      outStream = null;
+      bitmap = null;
+   }
+
 
    /**
     * Class's constructor
+    *
     * @param imagePath Image's Path + Name
     * @param newCoordX X position in the PDF document
     * @param newCoordY Y position in the PDF document
@@ -49,11 +106,10 @@ public class ImageElement extends PDFElement{
     */
    public ImageElement(String imagePath, int newCoordX, int newCoordY)
       throws PDFImageNotFoundException, PDFImageIOException {
-      try
-      {
+      try {
          Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-         ByteArrayOutputStream outStream = new ByteArrayOutputStream ();
-         bitmap.compress(Bitmap.CompressFormat.JPEG,100,outStream);
+         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
          this.content = new byte[outStream.size()];
          this.content = outStream.toByteArray();
          this.height = bitmap.getHeight();
@@ -63,35 +119,30 @@ public class ImageElement extends PDFElement{
          outStream.close();
          outStream = null;
          bitmap = null;
-      }
-      catch (FileNotFoundException ex)
-      {
-         throw new PDFImageNotFoundException("Immagine " + imagePath + " non trovata o formato " +
-            "non corretto!", ex);
-      }
-      catch (IOException ex)
-      {
-         throw new PDFImageIOException("Errore generale di IO sull'immagine " + imagePath, ex);
+      } catch (FileNotFoundException ex) {
+         throw new PDFImageNotFoundException("Cannot find " + imagePath, ex);
+      } catch (IOException ex) {
+         throw new PDFImageIOException("Get file error ", ex);
       }
    }
 
    /**
     * Class's constructor
+    *
     * @param imagePath Image's Path + Name
     * @param newCoordX X position in the PDF document
     * @param newCoordY Y position in the PDF document
     * @param newHeight New image's height
-    * @param newWidth New image's width
+    * @param newWidth  New image's width
     * @throws PDFImageNotFoundException
     * @throws PDFImageIOException
     */
    public ImageElement(String imagePath, int newCoordX, int newCoordY, int newHeight, int
       newWidth) throws PDFImageNotFoundException, PDFImageIOException {
-      try
-      {
+      try {
          Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-         ByteArrayOutputStream outStream = new ByteArrayOutputStream ();
-         bitmap.compress(Bitmap.CompressFormat.JPEG,100,outStream);
+         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
          this.content = new byte[outStream.size()];
          this.content = outStream.toByteArray();
          this.height = bitmap.getHeight();
@@ -103,15 +154,10 @@ public class ImageElement extends PDFElement{
          outStream.close();
          outStream = null;
          bitmap = null;
-      }
-      catch (FileNotFoundException ex)
-      {
-         throw new PDFImageNotFoundException("Immagine " + imagePath + " non trovata o formato " +
-            "non corretto!", ex);
-      }
-      catch (IOException ex)
-      {
-         throw new PDFImageIOException("Errore generale di IO sull'immagine " + imagePath, ex);
+      } catch (FileNotFoundException ex) {
+         throw new PDFImageNotFoundException("Cannot find " + imagePath, ex);
+      } catch (IOException ex) {
+         throw new PDFImageIOException("Get file error " + imagePath, ex);
       }
    }
 
@@ -119,47 +165,43 @@ public class ImageElement extends PDFElement{
    public String getText() {
       StringBuilder resultImage = new StringBuilder();
       StringBuilder imageContent = new StringBuilder();
-      imageContent.append("q" + (char)13 + (char)10);
-      if (newHeight == 0 || newWidth == 0)
-      {
+      imageContent.append("q" + (char) 13 + (char) 10);
+      if (newHeight == 0 || newWidth == 0) {
          imageContent.append(String.valueOf(width) + " 0 0 " + String.valueOf(height) + " " +
-            String.valueOf(coordX) +" " + String.valueOf(coordY) + " cm"+ (char)13 + (char)10);
-      }
-      else
-      {
+            String.valueOf(coordX) + " " + String.valueOf(coordY) + " cm" + (char) 13 + (char) 10);
+      } else {
          imageContent.append(String.valueOf(newWidth) + " 0 0 " + String.valueOf(newHeight) + " " +
-            String.valueOf(coordX) + " " + String.valueOf(coordY) + " cm" + (char)13 +(char)10);
+            String.valueOf(coordX) + " " + String.valueOf(coordY) + " cm" + (char) 13 + (char) 10);
       }
-      imageContent.append("/I" + String.valueOf(xObjectID) + " Do" + (char)13+ (char)10);
-      imageContent.append("Q" + (char)13 + (char)10);
-      resultImage.append(String.valueOf(objectID) + " 0 obj" + (char)13+ (char)10);
-      resultImage.append("<<" + (char)13 + (char)10);
-      resultImage.append("/Length " + String.valueOf(imageContent.length()) + (char)13 + (char)10);
-      resultImage.append(">>" + (char)13 + (char)10);
-      resultImage.append("stream" + (char)13 + (char)10);
+      imageContent.append("/I" + String.valueOf(xObjectID) + " Do" + (char) 13 + (char) 10);
+      imageContent.append("Q" + (char) 13 + (char) 10);
+      resultImage.append(String.valueOf(objectID) + " 0 obj" + (char) 13 + (char) 10);
+      resultImage.append("<<" + (char) 13 + (char) 10);
+      resultImage.append("/Length " + String.valueOf(imageContent.length()) + (char) 13 + (char) 10);
+      resultImage.append(">>" + (char) 13 + (char) 10);
+      resultImage.append("stream" + (char) 13 + (char) 10);
       resultImage.append(imageContent.toString());
-      resultImage.append("endstream" + (char)13 + (char)10);
-      resultImage.append("endobj" + (char)13 + (char)10);
+      resultImage.append("endstream" + (char) 13 + (char) 10);
+      resultImage.append("endobj" + (char) 13 + (char) 10);
       imageContent = null;
       return resultImage.toString();
    }
 
-   public String getXObjectText()
-   {
+   public String getXObjectText() {
       StringBuilder resultImage = new StringBuilder();
       //------<XObject Header>------
-      resultImage.append(String.valueOf(xObjectID) + " 0 obj" + (char)13+ (char)10);
-      resultImage.append("<<" + (char)13 + (char)10);
-      resultImage.append("/Type /XObject" + (char)13 + (char)10);
-      resultImage.append("/Subtype /Image" + (char)13 + (char)10);
-      resultImage.append("/Name /I" + String.valueOf(xObjectID) + (char)13 + (char)10);
-      resultImage.append("/Filter /DCTDecode" + (char)13 + (char)10);
-      resultImage.append("/Width " + String.valueOf(width) + (char)13+ (char)10);
-      resultImage.append("/Height " + String.valueOf(height) + (char)13 + (char)10);
-      resultImage.append("/BitsPerComponent 8" + (char)13 + (char)10);
-      resultImage.append("/ColorSpace /DeviceRGB" + (char)13 + (char)10);
-      resultImage.append("/Length " + String.valueOf(content.length) + (char)13+ (char)10);
-      resultImage.append(">>" + (char)13 + (char)10);
+      resultImage.append(String.valueOf(xObjectID) + " 0 obj" + (char) 13 + (char) 10);
+      resultImage.append("<<" + (char) 13 + (char) 10);
+      resultImage.append("/Type /XObject" + (char) 13 + (char) 10);
+      resultImage.append("/Subtype /Image" + (char) 13 + (char) 10);
+      resultImage.append("/Name /I" + String.valueOf(xObjectID) + (char) 13 + (char) 10);
+      resultImage.append("/Filter /DCTDecode" + (char) 13 + (char) 10);
+      resultImage.append("/Width " + String.valueOf(width) + (char) 13 + (char) 10);
+      resultImage.append("/Height " + String.valueOf(height) + (char) 13 + (char) 10);
+      resultImage.append("/BitsPerComponent 8" + (char) 13 + (char) 10);
+      resultImage.append("/ColorSpace /DeviceRGB" + (char) 13 + (char) 10);
+      resultImage.append("/Length " + String.valueOf(content.length) + (char) 13 + (char) 10);
+      resultImage.append(">>" + (char) 13 + (char) 10);
       //------</XObject Header>-----
       return resultImage.toString();
    }
