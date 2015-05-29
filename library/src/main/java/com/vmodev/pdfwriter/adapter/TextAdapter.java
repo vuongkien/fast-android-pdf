@@ -6,6 +6,7 @@ import com.vmodev.pdfwriter.model.PredefinedFont;
 
 import org.apache.commons.codec.binary.Hex;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 /**
@@ -50,6 +51,7 @@ public abstract class TextAdapter {
 
    /**
     * Static method that encodes the string
+    *
     * @param strText Input Text
     * @return Result of the encoding
     */
@@ -58,8 +60,14 @@ public abstract class TextAdapter {
       return new String(Hex.encodeHex(bytes));
    }
 
+   public static String encodeHEX(String strText, String encoding) {
+      byte[] bytes = stringToBytes(strText,encoding);
+      return new String(Hex.encodeHex(bytes));
+   }
+
    /**
     * Convert String to byte array
+    *
     * @param str Input string
     * @return byte array
     */
@@ -72,9 +80,25 @@ public abstract class TextAdapter {
       return b;
    }
 
+   /**
+    * Convert String to byte array
+    *
+    * @param str Input string
+    * @return byte array
+    */
+   public static byte[] stringToBytes(String str, String encoding) {
+      try {
+         return str.getBytes(encoding);
+      } catch (UnsupportedEncodingException e) {
+         e.printStackTrace();
+      }
+      return null;
+   }
+
 
    /**
     * Static method that checks special characters into a string
+    *
     * @param strText Input text
     * @return Formatted text
     */
@@ -87,7 +111,8 @@ public abstract class TextAdapter {
 
    /**
     * Static method thats format a paragraph
-    * @param strText Input text
+    *
+    * @param strText  Input text
     * @param fontSize Font's size
     * @param fontType Font's type
     * @param parWidth Paragraph's width
@@ -100,10 +125,11 @@ public abstract class TextAdapter {
 
    /**
     * Static method thats format a paragraph
-    * @param strText Input text
-    * @param fontSize Font's size
-    * @param fontType Font's type
-    * @param parWidth Paragraph's width
+    *
+    * @param strText    Input text
+    * @param fontSize   Font's size
+    * @param fontType   Font's type
+    * @param parWidth   Paragraph's width
     * @param lineHeight Line's height
     * @return Iterable interface that contains paragraphLine objects
     */
@@ -114,12 +140,13 @@ public abstract class TextAdapter {
 
    /**
     * Static method thats format a paragraph
-    * @param strText Input text
-    * @param fontSize Font's size
-    * @param fontType Font's type
-    * @param parWidth Paragraph's width
+    *
+    * @param strText    Input text
+    * @param fontSize   Font's size
+    * @param fontType   Font's type
+    * @param parWidth   Paragraph's width
     * @param lineHeight Line's height
-    * @param parAlign Paragraph's Alignment
+    * @param parAlign   Paragraph's Alignment
     * @return Iterable interface that contains paragraphLine objects
     */
    public static Iterable formatParagraph(String strText, int fontSize, PredefinedFont fontType,
@@ -184,7 +211,8 @@ public abstract class TextAdapter {
 
    /**
     * Static Method that returns the lenght of a single word
-    * @param word Input word
+    *
+    * @param word     Input word
     * @param fontSize Font's size
     * @param fontType Font's type
     * @return Size of the word
@@ -199,9 +227,10 @@ public abstract class TextAdapter {
 
    /**
     * Static Method that crop a word to put it in a predefined space
-    * @param word Input word
-    * @param fontSize Font's size
-    * @param fontType Font's type
+    *
+    * @param word      Input word
+    * @param fontSize  Font's size
+    * @param fontType  Font's type
     * @param textSpace Max text's space
     * @return Cropped word
     */

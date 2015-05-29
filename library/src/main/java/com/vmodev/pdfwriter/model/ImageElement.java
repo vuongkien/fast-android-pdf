@@ -25,7 +25,7 @@ public class ImageElement extends PDFElement {
    private int newWidth;
    private byte[] content;
    private int xObjectID;
-
+   private PredefinedTransform transform = PredefinedTransform.DEGREES_0_ROTATION;
 
    public byte[] getContent() {
       return content;
@@ -71,6 +71,35 @@ public class ImageElement extends PDFElement {
     * @param bitmap    bitmap input
     * @param newCoordX X position in the PDF document
     * @param newCoordY Y position in the PDF document
+    * @param transform Rotate degree
+    * @throws PDFImageIOException
+    */
+   public ImageElement(Bitmap bitmap, int newCoordX, int newCoordY, PredefinedTransform transform)
+      throws PDFImageIOException {
+      ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+      bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+      this.content = new byte[outStream.size()];
+      this.content = outStream.toByteArray();
+      this.height = bitmap.getHeight();
+      this.width = bitmap.getWidth();
+      this.coordX = newCoordX;
+      this.coordY = newCoordY;
+      this.transform = transform;
+      try {
+         outStream.close();
+      } catch (IOException ex) {
+         throw new PDFImageIOException("Get bitmap error ", ex);
+      }
+      outStream = null;
+      bitmap = null;
+   }
+
+   /**
+    * Class's Constructor
+    *
+    * @param bitmap    bitmap input
+    * @param newCoordX X position in the PDF document
+    * @param newCoordY Y position in the PDF document
     * @throws PDFImageIOException
     */
    public ImageElement(Bitmap bitmap, int newCoordX, int newCoordY, int newHeight, int
@@ -85,6 +114,38 @@ public class ImageElement extends PDFElement {
       this.coordY = newCoordY;
       this.newHeight = newHeight;
       this.newWidth = newWidth;
+      try {
+         outStream.close();
+      } catch (IOException ex) {
+         throw new PDFImageIOException("Get bitmap error ", ex);
+      }
+      outStream = null;
+      bitmap = null;
+   }
+
+
+   /**
+    * Class's Constructor
+    *
+    * @param bitmap    bitmap input
+    * @param newCoordX X position in the PDF document
+    * @param newCoordY Y position in the PDF document
+    * @param transform Rotate degree
+    * @throws PDFImageIOException
+    */
+   public ImageElement(Bitmap bitmap, int newCoordX, int newCoordY, int newHeight, int
+      newWidth, PredefinedTransform transform) throws PDFImageIOException {
+      ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+      bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+      this.content = new byte[outStream.size()];
+      this.content = outStream.toByteArray();
+      this.height = bitmap.getHeight();
+      this.width = bitmap.getWidth();
+      this.coordX = newCoordX;
+      this.coordY = newCoordY;
+      this.newHeight = newHeight;
+      this.newWidth = newWidth;
+      this.transform = transform;
       try {
          outStream.close();
       } catch (IOException ex) {
@@ -132,6 +193,39 @@ public class ImageElement extends PDFElement {
     * @param imagePath Image's Path + Name
     * @param newCoordX X position in the PDF document
     * @param newCoordY Y position in the PDF document
+    * @param transform Rotate degree
+    * @throws PDFImageNotFoundException
+    * @throws PDFImageIOException
+    */
+   public ImageElement(String imagePath, int newCoordX, int newCoordY, PredefinedTransform transform)
+      throws PDFImageNotFoundException, PDFImageIOException {
+      try {
+         Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+         this.content = new byte[outStream.size()];
+         this.content = outStream.toByteArray();
+         this.height = bitmap.getHeight();
+         this.width = bitmap.getWidth();
+         this.coordX = newCoordX;
+         this.coordY = newCoordY;
+         this.transform = transform;
+         outStream.close();
+         outStream = null;
+         bitmap = null;
+      } catch (FileNotFoundException ex) {
+         throw new PDFImageNotFoundException("Cannot find " + imagePath, ex);
+      } catch (IOException ex) {
+         throw new PDFImageIOException("Get file error ", ex);
+      }
+   }
+
+   /**
+    * Class's constructor
+    *
+    * @param imagePath Image's Path + Name
+    * @param newCoordX X position in the PDF document
+    * @param newCoordY Y position in the PDF document
     * @param newHeight New image's height
     * @param newWidth  New image's width
     * @throws PDFImageNotFoundException
@@ -161,18 +255,63 @@ public class ImageElement extends PDFElement {
       }
    }
 
+   /**
+    * Class's constructor
+    *
+    * @param imagePath Image's Path + Name
+    * @param newCoordX X position in the PDF document
+    * @param newCoordY Y position in the PDF document
+    * @param newHeight New image's height
+    * @param newWidth  New image's width
+    * @param transform Rotate degree
+    * @throws PDFImageNotFoundException
+    * @throws PDFImageIOException
+    */
+   public ImageElement(String imagePath, int newCoordX, int newCoordY, int newHeight,
+                       int newWidth, PredefinedTransform transform)
+      throws PDFImageNotFoundException, PDFImageIOException {
+      try {
+         Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+         this.content = new byte[outStream.size()];
+         this.content = outStream.toByteArray();
+         this.height = bitmap.getHeight();
+         this.width = bitmap.getWidth();
+         this.newHeight = newHeight;
+         this.newWidth = newWidth;
+         this.coordX = newCoordX;
+         this.coordY = newCoordY;
+         this.transform = transform;
+         outStream.close();
+         outStream = null;
+         bitmap = null;
+      } catch (FileNotFoundException ex) {
+         throw new PDFImageNotFoundException("Cannot find " + imagePath, ex);
+      } catch (IOException ex) {
+         throw new PDFImageIOException("Get file error " + imagePath, ex);
+      }
+   }
+
    @Override
    public String getText() {
       StringBuilder resultImage = new StringBuilder();
       StringBuilder imageContent = new StringBuilder();
       imageContent.append("q" + (char) 13 + (char) 10);
+      imageContent.append("1 0 0 1 " + String.valueOf(coordX) + " " + String.valueOf(coordY) + " cm" + (char) 13 + (char) 10);
+      imageContent.append(transform.getValue() + " 0 0" + " cm" + (char) 13 + (char) 10);
       if (newHeight == 0 || newWidth == 0) {
+         imageContent.append(String.valueOf(width) + " 0 0 " + String.valueOf(height) + " cm" + (char) 13 + (char) 10);
+      } else {
+         imageContent.append(String.valueOf(newWidth) + " 0 0 " + String.valueOf(newHeight) + " cm" + (char) 13 + (char) 10);
+      }
+      /*if (newHeight == 0 || newWidth == 0) {
          imageContent.append(String.valueOf(width) + " 0 0 " + String.valueOf(height) + " " +
             String.valueOf(coordX) + " " + String.valueOf(coordY) + " cm" + (char) 13 + (char) 10);
       } else {
          imageContent.append(String.valueOf(newWidth) + " 0 0 " + String.valueOf(newHeight) + " " +
             String.valueOf(coordX) + " " + String.valueOf(coordY) + " cm" + (char) 13 + (char) 10);
-      }
+      }*/
       imageContent.append("/I" + String.valueOf(xObjectID) + " Do" + (char) 13 + (char) 10);
       imageContent.append("Q" + (char) 13 + (char) 10);
       resultImage.append(String.valueOf(objectID) + " 0 obj" + (char) 13 + (char) 10);

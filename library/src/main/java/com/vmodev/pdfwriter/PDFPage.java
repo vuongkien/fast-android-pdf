@@ -21,6 +21,7 @@ import com.vmodev.pdfwriter.model.PredefinedColor;
 import com.vmodev.pdfwriter.model.PredefinedFont;
 import com.vmodev.pdfwriter.model.PredefinedLineStyle;
 import com.vmodev.pdfwriter.model.PredefinedSize;
+import com.vmodev.pdfwriter.model.PredefinedTransform;
 import com.vmodev.pdfwriter.model.RectangleElement;
 import com.vmodev.pdfwriter.model.TextElement;
 
@@ -119,6 +120,25 @@ public class PDFPage implements IWritable {
    /**
     * Method that adds an image to the page object
     *
+    * @param bitmap    Bitmap input
+    * @param X         X position of the image in the page
+    * @param Y         Y position of the image in the page
+    * @param transform Rotate Degree
+    */
+   public void addImage(Bitmap bitmap, int X, int Y, PredefinedTransform transform) {
+      ImageElement objImage = null;
+      try {
+         objImage = new ImageElement(bitmap, X, Y, transform);
+      } catch (PDFImageIOException e) {
+         e.printStackTrace();
+      }
+      elements.add(objImage);
+      objImage = null;
+   }
+
+   /**
+    * Method that adds an image to the page object
+    *
     * @param bitmap Bitmap input
     * @param X      X position of the image in the page
     * @param Y      Y position of the image in the page
@@ -129,6 +149,28 @@ public class PDFPage implements IWritable {
       ImageElement objImage = null;
       try {
          objImage = new ImageElement(bitmap, X, Y, height, width);
+      } catch (PDFImageIOException e) {
+         e.printStackTrace();
+      }
+      elements.add(objImage);
+      objImage = null;
+   }
+
+   /**
+    * Method that adds an image to the page object
+    *
+    * @param bitmap    Bitmap input
+    * @param X         X position of the image in the page
+    * @param Y         Y position of the image in the page
+    * @param height    new height
+    * @param width     new width
+    * @param transform Rotate degree
+    */
+   public void addImage(Bitmap bitmap, int X, int Y, int height, int width,
+                        PredefinedTransform transform) {
+      ImageElement objImage = null;
+      try {
+         objImage = new ImageElement(bitmap, X, Y, height, width, transform);
       } catch (PDFImageIOException e) {
          e.printStackTrace();
       }
@@ -147,6 +189,29 @@ public class PDFPage implements IWritable {
     * @throws PDFImageIOException
     */
    public void addImage(String newImgSource, int X, int Y)
+      throws PDFImageNotFoundException, PDFImageIOException {
+      try {
+         ImageElement objImage = new ImageElement(newImgSource, X, Y);
+         elements.add(objImage);
+         objImage = null;
+      } catch (PDFImageNotFoundException ex) {
+         throw new PDFImageNotFoundException(ex.getMessage(), ex);
+      } catch (PDFImageIOException ex) {
+         throw new PDFImageIOException(ex.getMessage(), ex);
+      }
+   }
+
+   /**
+    * Method that adds an image to the page object
+    *
+    * @param newImgSource Full image path
+    * @param X            X position of the image in the page
+    * @param Y            Y position of the image in the page
+    * @param transform    Rotate degree
+    * @throws PDFImageNotFoundException
+    * @throws PDFImageIOException
+    */
+   public void addImage(String newImgSource, int X, int Y, PredefinedTransform transform)
       throws PDFImageNotFoundException, PDFImageIOException {
       try {
          ImageElement objImage = new ImageElement(newImgSource, X, Y);
@@ -184,6 +249,32 @@ public class PDFPage implements IWritable {
    }
 
    /**
+    * Method that adds an image to the page object
+    *
+    * @param newImgSource Full image path
+    * @param X            X position of the image in the page
+    * @param Y            Y position of the image in the page
+    * @param height       New height of the image
+    * @param width        New width of the image
+    * @param transform    Rotate degree
+    * @throws PDFImageNotFoundException
+    * @throws PDFImageIOException
+    */
+   public void addImage(String newImgSource, int X, int Y, int height, int width,
+                        PredefinedTransform transform)
+      throws PDFImageNotFoundException, PDFImageIOException {
+      try {
+         ImageElement objImage = new ImageElement(newImgSource, X, Y, height, width, transform);
+         elements.add(objImage);
+         objImage = null;
+      } catch (PDFImageNotFoundException ex) {
+         throw new PDFImageNotFoundException(ex.getMessage(), ex);
+      } catch (PDFImageIOException ex) {
+         throw new PDFImageIOException(ex.getMessage(), ex);
+      }
+   }
+
+   /**
     * Method that adds a text element to the page object
     *
     * @param newText  Text
@@ -211,6 +302,13 @@ public class PDFPage implements IWritable {
    public void addText(String newText, int X, int Y, PredefinedFont fontType, int fontSize,
                        PredefinedColor fontColor) {
       TextElement objText = new TextElement(newText, fontSize, fontType, X, Y, fontColor);
+      elements.add(objText);
+      objText = null;
+   }
+
+   public void addText(String newText, int x, int y, PredefinedFont fontType, int fontSize,
+                       PredefinedColor fontColor, PredefinedTransform transform) {
+      TextElement objText = new TextElement(newText, fontSize, fontType, x, y, fontColor, transform);
       elements.add(objText);
       objText = null;
    }

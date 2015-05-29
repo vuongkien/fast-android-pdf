@@ -230,7 +230,7 @@ public class PDFDocument {
       // ASCIIEncoding myEncoder = new ASCIIEncoding();
       byte[] arrTemp;
       try {
-         arrTemp = stringContent.getBytes("UTF-8");
+         arrTemp = stringContent.getBytes("US-ASCII");
          myBuffer.write(arrTemp, 0, arrTemp.length);
          return arrTemp.length;
       } catch (IOException ex) {

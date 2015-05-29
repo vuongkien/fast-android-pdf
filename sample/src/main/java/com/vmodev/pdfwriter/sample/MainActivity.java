@@ -10,6 +10,8 @@ import android.view.View;
 import com.vmodev.pdfwriter.PDFDocument;
 import com.vmodev.pdfwriter.PDFPage;
 import com.vmodev.pdfwriter.exception.PDFBadColumnIndexException;
+import com.vmodev.pdfwriter.exception.PDFImageIOException;
+import com.vmodev.pdfwriter.exception.PDFImageNotFoundException;
 import com.vmodev.pdfwriter.exception.PDFIncorrectColumnException;
 import com.vmodev.pdfwriter.exception.PDFIncorrectRowException;
 import com.vmodev.pdfwriter.exception.PDFWritingErrorException;
@@ -18,8 +20,10 @@ import com.vmodev.pdfwriter.model.PDFTableColumn;
 import com.vmodev.pdfwriter.model.PDFTableHeader;
 import com.vmodev.pdfwriter.model.PDFTableRow;
 import com.vmodev.pdfwriter.model.PredefinedAlignment;
+import com.vmodev.pdfwriter.model.PredefinedColor;
 import com.vmodev.pdfwriter.model.PredefinedFont;
 import com.vmodev.pdfwriter.model.PredefinedSize;
+import com.vmodev.pdfwriter.model.PredefinedTransform;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -101,7 +105,16 @@ public class MainActivity extends ActionBarActivity {
 
             }
             PDFPage pdfPage2 = document.addPage(PredefinedSize.A4_WIDTH,PredefinedSize.A4_HEIGHT);
-            pdfPage2.addText("ABC ABC ABC ABC ABC ABC BAC", 70, 60, PredefinedFont.Helvetica, 10);
+            pdfPage2.addText("ABC ABC ABC ABC ABC ABC BAC", 70, 60, PredefinedFont.Helvetica, 10,
+               PredefinedColor.Blue, PredefinedTransform.DEGREES_90_ROTATION);
+            try {
+               pdfPage2.addImage(Environment.getExternalStorageDirectory()+"/Temporary_holder.jpg",
+                  20,400);
+            } catch (PDFImageNotFoundException e) {
+               e.printStackTrace();
+            } catch (PDFImageIOException e) {
+               e.printStackTrace();
+            }
             try {
                document.createPDF(Environment.getExternalStorageDirectory() + "/KienPDFTest.pdf");
             } catch (PDFWritingErrorException e) {
