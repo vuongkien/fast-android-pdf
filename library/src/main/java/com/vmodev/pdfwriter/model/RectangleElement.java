@@ -41,6 +41,27 @@ public class RectangleElement extends PDFElement{
     * @param Y1 End Y position
     * @param strokeColor Color of stroke
     * @param fillColor Color of fill
+    */
+   public RectangleElement(int X, int Y, int X1, int Y1, PDFColor strokeColor,
+                           PDFColor fillColor)
+   {
+      this.coordX = X;
+      this.coordY = Y;
+      coordX1 = X1;
+      coordY1 = Y1;
+      this.strokeColor = strokeColor;
+      this.fillColor = fillColor;
+      this.lineStyle = new PDFLineStyle(1, PredefinedLineStyle.Normal);
+   }
+
+   /**
+    * Class's Constructor
+    * @param X Start X position
+    * @param Y Start Y position
+    * @param X1 End X position
+    * @param Y1 End Y position
+    * @param strokeColor Color of stroke
+    * @param fillColor Color of fill
     * @param newWidth Border's width
     */
    public RectangleElement(int X, int Y, int X1, int Y1, PredefinedColor strokeColor,
@@ -52,6 +73,28 @@ public class RectangleElement extends PDFElement{
       coordY1 = Y1;
       this.strokeColor = new PDFColor(strokeColor);
       this.fillColor = new PDFColor(fillColor);
+      this.lineStyle = new PDFLineStyle(newWidth, PredefinedLineStyle.Normal);
+   }
+
+   /**
+    * Class's Constructor
+    * @param X Start X position
+    * @param Y Start Y position
+    * @param X1 End X position
+    * @param Y1 End Y position
+    * @param strokeColor Color of stroke
+    * @param fillColor Color of fill
+    * @param newWidth Border's width
+    */
+   public RectangleElement(int X, int Y, int X1, int Y1, PDFColor strokeColor,
+                           PDFColor fillColor, int newWidth)
+   {
+      this.coordX = X;
+      this.coordY = Y;
+      coordX1 = X1;
+      coordY1 = Y1;
+      this.strokeColor = strokeColor;
+      this.fillColor = fillColor;
       this.lineStyle = new PDFLineStyle(newWidth, PredefinedLineStyle.Normal);
    }
 
@@ -85,6 +128,28 @@ public class RectangleElement extends PDFElement{
     * @param Y1 End Y position
     * @param strokeColor Color of stroke
     * @param fillColor Color of fill
+    * @param newStyle Border's style
+    */
+   public RectangleElement(int X, int Y, int X1, int Y1, PDFColor strokeColor,
+                           PDFColor fillColor, PredefinedLineStyle newStyle)
+   {
+      this.coordX = X;
+      this.coordY = Y;
+      coordX1 = X1;
+      coordY1 = Y1;
+      this.strokeColor = strokeColor;
+      this.fillColor = fillColor;
+      this.lineStyle = new PDFLineStyle(1, newStyle);
+   }
+
+   /**
+    * Class's Constructor
+    * @param X Start X position
+    * @param Y Start Y position
+    * @param X1 End X position
+    * @param Y1 End Y position
+    * @param strokeColor Color of stroke
+    * @param fillColor Color of fill
     * @param newWidth Border's width
     * @param newStyle Border's style
     */
@@ -97,6 +162,29 @@ public class RectangleElement extends PDFElement{
       coordY1 = Y1;
       this.strokeColor = new PDFColor(strokeColor);
       this.fillColor = new PDFColor(fillColor);
+      this.lineStyle = new PDFLineStyle(newWidth, newStyle);
+   }
+
+   /**
+    * Class's Constructor
+    * @param X Start X position
+    * @param Y Start Y position
+    * @param X1 End X position
+    * @param Y1 End Y position
+    * @param strokeColor Color of stroke
+    * @param fillColor Color of fill
+    * @param newWidth Border's width
+    * @param newStyle Border's style
+    */
+   public RectangleElement(int X, int Y, int X1, int Y1, PDFColor strokeColor,
+                           PDFColor fillColor, int newWidth, PredefinedLineStyle newStyle)
+   {
+      this.coordX = X;
+      this.coordY = Y;
+      coordX1 = X1;
+      coordY1 = Y1;
+      this.strokeColor = strokeColor;
+      this.fillColor = fillColor;
       this.lineStyle = new PDFLineStyle(newWidth, newStyle);
    }
 

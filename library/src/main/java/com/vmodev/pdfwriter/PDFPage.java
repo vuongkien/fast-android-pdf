@@ -11,6 +11,7 @@ import com.vmodev.pdfwriter.model.CircleElement;
 import com.vmodev.pdfwriter.model.IWritable;
 import com.vmodev.pdfwriter.model.ImageElement;
 import com.vmodev.pdfwriter.model.LineElement;
+import com.vmodev.pdfwriter.model.PDFColor;
 import com.vmodev.pdfwriter.model.PDFElement;
 import com.vmodev.pdfwriter.model.PDFFont;
 import com.vmodev.pdfwriter.model.PDFTable;
@@ -306,8 +307,54 @@ public class PDFPage implements IWritable {
       objText = null;
    }
 
+   /**
+    * Method that adds a text element to the page object
+    *
+    * @param newText   Text
+    * @param X         X position of the text in the page
+    * @param Y         Y position of the text in the page
+    * @param fontType  Font's type
+    * @param fontSize  Font's size
+    * @param fontColor Font's color
+    */
+   public void addText(String newText, int X, int Y, PredefinedFont fontType, int fontSize,
+                       PDFColor fontColor) {
+      TextElement objText = new TextElement(newText, fontSize, fontType, X, Y, fontColor);
+      elements.add(objText);
+      objText = null;
+   }
+
+   /**
+    * Method that adds a text element to the page object
+    *
+    * @param newText   Text
+    * @param x         X position of the text in the page
+    * @param y         Y position of the text in the page
+    * @param fontType  Font's type
+    * @param fontSize  Font's size
+    * @param fontColor Font's color
+    * @param transform Rotate Degree
+    */
    public void addText(String newText, int x, int y, PredefinedFont fontType, int fontSize,
                        PredefinedColor fontColor, PredefinedTransform transform) {
+      TextElement objText = new TextElement(newText, fontSize, fontType, x, y, fontColor, transform);
+      elements.add(objText);
+      objText = null;
+   }
+
+   /**
+    * Method that adds a text element to the page object
+    *
+    * @param newText   Text
+    * @param x         X position of the text in the page
+    * @param y         Y position of the text in the page
+    * @param fontType  Font's type
+    * @param fontSize  Font's size
+    * @param fontColor Font's color
+    * @param transform Rotate Degree
+    */
+   public void addText(String newText, int x, int y, PredefinedFont fontType, int fontSize,
+                       PDFColor fontColor, PredefinedTransform transform) {
       TextElement objText = new TextElement(newText, fontSize, fontType, x, y, fontColor, transform);
       elements.add(objText);
       objText = null;
@@ -359,6 +406,29 @@ public class PDFPage implements IWritable {
    /**
     * Method that adds a text element to the page object
     *
+    * @param newText   Text
+    * @param x         X position of the text in the page
+    * @param y         Y position of the text in the page
+    * @param fontType  Font's type
+    * @param fontSize  Font's size
+    * @param parWidth  Paragraph's width
+    * @param fontColor Font's color
+    *                  Return height of paragraph;
+    */
+   public int addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
+                           int parWidth, PDFColor fontColor) {
+      Iterable formattedPara = TextAdapter.formatParagraph(newText,
+         fontSize, fontType, parWidth);
+      ParagraphElement objParagraph = new ParagraphElement(TextAdapter.formatParagraph(newText,
+         fontSize, fontType, parWidth), fontSize, fontType, x, y, fontColor);
+      elements.add(objParagraph);
+      objParagraph = null;
+      return paragraphSize(formattedPara) * (fontSize + 4);
+   }
+
+   /**
+    * Method that adds a text element to the page object
+    *
     * @param newText    Text
     * @param x          X position of the text in the page
     * @param y          Y position of the text in the page
@@ -394,6 +464,30 @@ public class PDFPage implements IWritable {
     */
    public int addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
                            int parWidth, int lineHeight, PredefinedColor fontColor) {
+      Iterable formattedPara = TextAdapter.formatParagraph(newText,
+         fontSize, fontType, parWidth, lineHeight);
+      ParagraphElement objParagraph = new ParagraphElement(TextAdapter.formatParagraph(newText,
+         fontSize, fontType, parWidth, lineHeight), fontSize, fontType, x, y, fontColor);
+      elements.add(objParagraph);
+      objParagraph = null;
+      return paragraphSize(formattedPara) * (fontSize + 4);
+   }
+
+   /**
+    * Method that adds a text element to the page object
+    *
+    * @param newText    Text
+    * @param x          X position of the text in the page
+    * @param y          Y position of the text in the page
+    * @param fontType   Font's type
+    * @param fontSize   Font's size
+    * @param parWidth   Paragraph's width
+    * @param lineHeight Line's height
+    * @param fontColor  Font's color
+    *                   Return height of paragraph;
+    */
+   public int addParagraph(String newText, int x, int y, PredefinedFont fontType, int fontSize,
+                           int parWidth, int lineHeight, PDFColor fontColor) {
       Iterable formattedPara = TextAdapter.formatParagraph(newText,
          fontSize, fontType, parWidth, lineHeight);
       ParagraphElement objParagraph = new ParagraphElement(TextAdapter.formatParagraph(newText,
@@ -485,6 +579,25 @@ public class PDFPage implements IWritable {
     */
    public int addParagraph(Iterable newText, int x, int y, PredefinedFont fontType, int fontSize,
                            PredefinedColor fontColor) {
+      ParagraphElement objParagraph = new ParagraphElement(newText, fontSize, fontType, x, y, fontColor);
+      elements.add(objParagraph);
+      objParagraph = null;
+      return paragraphSize(newText) * (fontSize + 4);
+   }
+
+   /**
+    * Method that adds a text element to the page object
+    *
+    * @param newText   Interface Iterable that contains paragraphLine objects
+    * @param x         X position of the text in the page
+    * @param y         Y position of the text in the page
+    * @param fontType  Font's type
+    * @param fontSize  Font's size
+    * @param fontColor Font's color
+    *                  Return height of paragraph;
+    */
+   public int addParagraph(Iterable newText, int x, int y, PredefinedFont fontType, int fontSize,
+                           PDFColor fontColor) {
       ParagraphElement objParagraph = new ParagraphElement(newText, fontSize, fontType, x, y, fontColor);
       elements.add(objParagraph);
       objParagraph = null;
@@ -633,6 +746,21 @@ public class PDFPage implements IWritable {
     * @param Y         Y position of the line in the page
     * @param X1        X1 position of the line in the page
     * @param Y1        Y1 position of the line in the page
+    * @param lineColor Line's color ie: new PDFColor("0","0","0") => BLACK
+    */
+   public void drawLine(int X, int Y, int X1, int Y1, PDFColor lineColor) {
+      LineElement objLine = new LineElement(X, Y, X1, Y1, lineColor);
+      elements.add(objLine);
+      objLine = null;
+   }
+
+   /**
+    * Method that adds a line to the page object
+    *
+    * @param X         X position of the line in the page
+    * @param Y         Y position of the line in the page
+    * @param X1        X1 position of the line in the page
+    * @param Y1        Y1 position of the line in the page
     * @param lineStyle Line's style
     */
    public void drawLine(int X, int Y, int X1, int Y1, PredefinedLineStyle lineStyle) {
@@ -652,6 +780,22 @@ public class PDFPage implements IWritable {
     * @param lineWidth Line's size
     */
    public void drawLine(int X, int Y, int X1, int Y1, PredefinedColor lineColor, int lineWidth) {
+      LineElement objLine = new LineElement(X, Y, X1, Y1, lineWidth, lineColor);
+      elements.add(objLine);
+      objLine = null;
+   }
+
+   /**
+    * Method that adds a line to the page object
+    *
+    * @param X         X position of the line in the page
+    * @param Y         Y position of the line in the page
+    * @param X1        X1 position of the line in the page
+    * @param Y1        Y1 position of the line in the page
+    * @param lineColor Line's color
+    * @param lineWidth Line's size
+    */
+   public void drawLine(int X, int Y, int X1, int Y1, PDFColor lineColor, int lineWidth) {
       LineElement objLine = new LineElement(X, Y, X1, Y1, lineWidth, lineColor);
       elements.add(objLine);
       objLine = null;
@@ -699,10 +843,45 @@ public class PDFPage implements IWritable {
     * @param Y1        Y1 position of the line in the page
     * @param lineStyle Line's style
     * @param lineColor Line's color
+    */
+   public void drawLine(int X, int Y, int X1, int Y1, PredefinedLineStyle lineStyle,
+                        PDFColor lineColor) {
+      LineElement objLine = new LineElement(X, Y, X1, Y1, lineStyle, lineColor);
+      elements.add(objLine);
+      objLine = null;
+   }
+
+   /**
+    * Method that adds a line to the page object
+    *
+    * @param X         X position of the line in the page
+    * @param Y         Y position of the line in the page
+    * @param X1        X1 position of the line in the page
+    * @param Y1        Y1 position of the line in the page
+    * @param lineStyle Line's style
+    * @param lineColor Line's color
     * @param lineWidth Line's size
     */
    public void drawLine(int X, int Y, int X1, int Y1, PredefinedLineStyle lineStyle,
                         PredefinedColor lineColor, int lineWidth) {
+      LineElement objLine = new LineElement(X, Y, X1, Y1, lineWidth, lineStyle, lineColor);
+      elements.add(objLine);
+      objLine = null;
+   }
+
+   /**
+    * Method that adds a line to the page object
+    *
+    * @param X         X position of the line in the page
+    * @param Y         Y position of the line in the page
+    * @param X1        X1 position of the line in the page
+    * @param Y1        Y1 position of the line in the page
+    * @param lineStyle Line's style
+    * @param lineColor Line's color
+    * @param lineWidth Line's size
+    */
+   public void drawLine(int X, int Y, int X1, int Y1, PredefinedLineStyle lineStyle,
+                        PDFColor lineColor, int lineWidth) {
       LineElement objLine = new LineElement(X, Y, X1, Y1, lineWidth, lineStyle, lineColor);
       elements.add(objLine);
       objLine = null;
@@ -734,9 +913,44 @@ public class PDFPage implements IWritable {
     * @param Y1          Y1 position of the rectangle in the page
     * @param strokeColor Stroke color
     * @param fillColor   Fill color
+    */
+   public void drawRectangle(int X, int Y, int X1, int Y1, PDFColor strokeColor,
+                             PDFColor fillColor) {
+      RectangleElement objRectangle = new RectangleElement(X, Y, X1, Y1, strokeColor, fillColor);
+      elements.add(objRectangle);
+      objRectangle = null;
+   }
+
+   /**
+    * Method that adds a rectangle to the page object
+    *
+    * @param X           X position of the rectangle in the page
+    * @param Y           Y position of the rectangle in the page
+    * @param X1          X1 position of the rectangle in the page
+    * @param Y1          Y1 position of the rectangle in the page
+    * @param strokeColor Stroke color
+    * @param fillColor   Fill color
     * @param borderWidth Border's size
     */
    public void drawRectangle(int X, int Y, int X1, int Y1, PredefinedColor strokeColor, PredefinedColor fillColor, int
+      borderWidth) {
+      RectangleElement objRectangle = new RectangleElement(X, Y, X1, Y1, strokeColor, fillColor, borderWidth);
+      elements.add(objRectangle);
+      objRectangle = null;
+   }
+
+   /**
+    * Method that adds a rectangle to the page object
+    *
+    * @param X           X position of the rectangle in the page
+    * @param Y           Y position of the rectangle in the page
+    * @param X1          X1 position of the rectangle in the page
+    * @param Y1          Y1 position of the rectangle in the page
+    * @param strokeColor Stroke color
+    * @param fillColor   Fill color
+    * @param borderWidth Border's size
+    */
+   public void drawRectangle(int X, int Y, int X1, int Y1, PDFColor strokeColor, PDFColor fillColor, int
       borderWidth) {
       RectangleElement objRectangle = new RectangleElement(X, Y, X1, Y1, strokeColor, fillColor, borderWidth);
       elements.add(objRectangle);
@@ -770,11 +984,48 @@ public class PDFPage implements IWritable {
     * @param Y1          Y1 position of the rectangle in the page
     * @param strokeColor Stroke color
     * @param fillColor   Fill color
+    * @param borderStyle Border's style
+    */
+   public void drawRectangle(int X, int Y, int X1, int Y1, PDFColor strokeColor,
+                             PDFColor fillColor, PredefinedLineStyle borderStyle) {
+      RectangleElement objRectangle = new RectangleElement(X, Y, X1, Y1, strokeColor, fillColor, borderStyle);
+      elements.add(objRectangle);
+      objRectangle = null;
+   }
+
+   /**
+    * Method that adds a rectangle to the page object
+    *
+    * @param X           X position of the rectangle in the page
+    * @param Y           Y position of the rectangle in the page
+    * @param X1          X1 position of the rectangle in the page
+    * @param Y1          Y1 position of the rectangle in the page
+    * @param strokeColor Stroke color
+    * @param fillColor   Fill color
     * @param borderWidth Border's width
     * @param borderStyle Border's style
     */
    public void drawRectangle(int X, int Y, int X1, int Y1, PredefinedColor strokeColor,
                              PredefinedColor fillColor, int borderWidth, PredefinedLineStyle borderStyle) {
+      RectangleElement objRectangle = new RectangleElement(X, Y, X1, Y1, strokeColor, fillColor, borderWidth, borderStyle);
+      elements.add(objRectangle);
+      objRectangle = null;
+   }
+
+   /**
+    * Method that adds a rectangle to the page object
+    *
+    * @param X           X position of the rectangle in the page
+    * @param Y           Y position of the rectangle in the page
+    * @param X1          X1 position of the rectangle in the page
+    * @param Y1          Y1 position of the rectangle in the page
+    * @param strokeColor Stroke color
+    * @param fillColor   Fill color
+    * @param borderWidth Border's width
+    * @param borderStyle Border's style
+    */
+   public void drawRectangle(int X, int Y, int X1, int Y1, PDFColor strokeColor,
+                             PDFColor fillColor, int borderWidth, PredefinedLineStyle borderStyle) {
       RectangleElement objRectangle = new RectangleElement(X, Y, X1, Y1, strokeColor, fillColor, borderWidth, borderStyle);
       elements.add(objRectangle);
       objRectangle = null;
@@ -804,10 +1055,42 @@ public class PDFPage implements IWritable {
     * @param ray         Circle's ray
     * @param strokeColor Border's color
     * @param fillColor   fill color
+    */
+   public void drawCircle(int X, int Y, int ray, PDFColor strokeColor, PDFColor fillColor) {
+      CircleElement objCircle = new CircleElement(X, Y, ray, strokeColor, fillColor);
+      elements.add(objCircle);
+      objCircle = null;
+   }
+
+   /**
+    * Method that adds a circle to the page object
+    *
+    * @param X           X position of the circle in the page
+    * @param Y           Y position of the circle in the page
+    * @param ray         Circle's ray
+    * @param strokeColor Border's color
+    * @param fillColor   fill color
     * @param borderWidth Border's size
     */
    public void drawCircle(int X, int Y, int ray, PredefinedColor strokeColor, PredefinedColor
       fillColor, int borderWidth) {
+      CircleElement objCircle = new CircleElement(X, Y, ray, strokeColor, fillColor, borderWidth);
+      elements.add(objCircle);
+      objCircle = null;
+   }
+
+   /**
+    * Method that adds a circle to the page object
+    *
+    * @param X           X position of the circle in the page
+    * @param Y           Y position of the circle in the page
+    * @param ray         Circle's ray
+    * @param strokeColor Border's color
+    * @param fillColor   fill color
+    * @param borderWidth Border's size
+    */
+   public void drawCircle(int X, int Y, int ray, PDFColor strokeColor, PDFColor fillColor, int
+      borderWidth) {
       CircleElement objCircle = new CircleElement(X, Y, ray, strokeColor, fillColor, borderWidth);
       elements.add(objCircle);
       objCircle = null;
@@ -839,9 +1122,44 @@ public class PDFPage implements IWritable {
     * @param strokeColor Border's color
     * @param fillColor   fill color
     * @param borderStyle Border's style
+    */
+   public void drawCircle(int X, int Y, int ray, PDFColor strokeColor, PDFColor fillColor,
+                          PredefinedLineStyle borderStyle) {
+      CircleElement objCircle = new CircleElement(X, Y, ray, strokeColor, fillColor, borderStyle);
+      elements.add(objCircle);
+      objCircle = null;
+   }
+
+   /**
+    * Method that adds a circle to the page object
+    *
+    * @param X           X position of the circle in the page
+    * @param Y           Y position of the circle in the page
+    * @param ray         Circle's ray
+    * @param strokeColor Border's color
+    * @param fillColor   fill color
+    * @param borderStyle Border's style
     * @param borderWidth Border's size
     */
    public void drawCircle(int X, int Y, int ray, PredefinedColor strokeColor, PredefinedColor fillColor,
+                          PredefinedLineStyle borderStyle, int borderWidth) {
+      CircleElement objCircle = new CircleElement(X, Y, ray, strokeColor, fillColor, borderWidth, borderStyle);
+      elements.add(objCircle);
+      objCircle = null;
+   }
+
+   /**
+    * Method that adds a circle to the page object
+    *
+    * @param X           X position of the circle in the page
+    * @param Y           Y position of the circle in the page
+    * @param ray         Circle's ray
+    * @param strokeColor Border's color
+    * @param fillColor   fill color
+    * @param borderStyle Border's style
+    * @param borderWidth Border's size
+    */
+   public void drawCircle(int X, int Y, int ray, PDFColor strokeColor, PDFColor fillColor,
                           PredefinedLineStyle borderStyle, int borderWidth) {
       CircleElement objCircle = new CircleElement(X, Y, ray, strokeColor, fillColor, borderWidth, borderStyle);
       elements.add(objCircle);

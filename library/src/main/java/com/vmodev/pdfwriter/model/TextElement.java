@@ -52,6 +52,45 @@ public class TextElement extends PDFElement {
     * @param newCoordX      Start X position
     * @param newCoordY      Start Y position
     * @param newStrokeColor Font's color
+    */
+   public TextElement(String newContent, int newFontSize, PredefinedFont newFontType, int
+      newCoordX, int newCoordY, PDFColor newStrokeColor) {
+      this(newContent, newFontSize, newFontType, newCoordX, newCoordY, newStrokeColor,
+         PredefinedTransform.DEGREES_0_ROTATION);
+   }
+
+   /**
+    * Class's Constructor
+    *
+    * @param newContent     Text content
+    * @param newFontSize    Font size
+    * @param newFontType    Font type
+    * @param newCoordX      Start X position
+    * @param newCoordY      Start Y position
+    * @param newStrokeColor Font's color
+    * @param newTransform   Rotate degree
+    */
+   public TextElement(String newContent, int newFontSize, PredefinedFont newFontType, int newCoordX,
+                      int newCoordY, PDFColor newStrokeColor, PredefinedTransform newTransform) {
+      content = newContent;
+      fontSize = newFontSize;
+      fontType = newFontType;
+      coordX = newCoordX;
+      coordY = newCoordY;
+      strokeColor = newStrokeColor;
+      transformation = newTransform;
+
+   }
+
+   /**
+    * Class's Constructor
+    *
+    * @param newContent     Text content
+    * @param newFontSize    Font size
+    * @param newFontType    Font type
+    * @param newCoordX      Start X position
+    * @param newCoordY      Start Y position
+    * @param newStrokeColor Font's color
     * @param newTransform   Rotate degree
     */
    public TextElement(String newContent, int newFontSize, PredefinedFont newFontType, int newCoordX,

@@ -37,6 +37,24 @@ public class CircleElement extends PDFElement {
     * @param Ray Ray of the circle
     * @param strokeColor Color of circle's border
     * @param fillColor Color of the circle
+    */
+   public CircleElement(int X, int Y, int Ray, PDFColor strokeColor,
+                        PDFColor fillColor) {
+      this.coordX = X;
+      this.coordY = Y;
+      this.ray = Ray;
+      this.strokeColor = strokeColor;
+      this.fillColor = fillColor;
+      this.lineStyle = new PDFLineStyle(1, PredefinedLineStyle.Normal);
+   }
+
+   /**
+    * Class's constructor
+    * @param X X position in the PDF document
+    * @param Y Y position in the PDF document
+    * @param Ray Ray of the circle
+    * @param strokeColor Color of circle's border
+    * @param fillColor Color of the circle
     * @param newWidth Border's size
     */
    public CircleElement(int X, int Y, int Ray, PredefinedColor strokeColor,
@@ -46,6 +64,25 @@ public class CircleElement extends PDFElement {
       this.ray = Ray;
       this.strokeColor = new PDFColor(strokeColor);
       this.fillColor = new PDFColor(fillColor);
+      this.lineStyle = new PDFLineStyle(newWidth, PredefinedLineStyle.Normal);
+   }
+
+   /**
+    * Class's constructor
+    * @param X X position in the PDF document
+    * @param Y Y position in the PDF document
+    * @param Ray Ray of the circle
+    * @param strokeColor Color of circle's border
+    * @param fillColor Color of the circle
+    * @param newWidth Border's size
+    */
+   public CircleElement(int X, int Y, int Ray, PDFColor strokeColor,
+                        PDFColor fillColor, int newWidth) {
+      this.coordX = X;
+      this.coordY = Y;
+      this.ray = Ray;
+      this.strokeColor = strokeColor;
+      this.fillColor = fillColor;
       this.lineStyle = new PDFLineStyle(newWidth, PredefinedLineStyle.Normal);
    }
 
@@ -69,6 +106,25 @@ public class CircleElement extends PDFElement {
    }
 
    /**
+    * Class's constructor
+    * @param X X position in the PDF document
+    * @param Y Y position in the PDF document
+    * @param Ray Ray of the circle
+    * @param strokeColor Color of circle's border
+    * @param fillColor Color of the circle
+    * @param newStyle Border's style
+    */
+   public CircleElement(int X, int Y, int Ray, PDFColor strokeColor,
+                        PDFColor fillColor, PredefinedLineStyle newStyle) {
+      this.coordX = X;
+      this.coordY = Y;
+      this.ray = Ray;
+      this.strokeColor = strokeColor;
+      this.fillColor = fillColor;
+      this.lineStyle = new PDFLineStyle(1, newStyle);
+   }
+
+   /**
     *
     * Class's constructor
     * @param X X position in the PDF document
@@ -86,6 +142,27 @@ public class CircleElement extends PDFElement {
       this.ray = Ray;
       this.strokeColor = new PDFColor(strokeColor);
       this.fillColor = new PDFColor(fillColor);
+      this.lineStyle = new PDFLineStyle(newWidth, newStyle);
+   }
+
+   /**
+    *
+    * Class's constructor
+    * @param X X position in the PDF document
+    * @param Y Y position in the PDF document
+    * @param Ray Ray of the circle
+    * @param strokeColor Color of circle's border
+    * @param fillColor Color of the circle
+    * @param newWidth Border's size
+    * @param newStyle Border's style
+    */
+   public CircleElement(int X, int Y, int Ray, PDFColor strokeColor, PDFColor fillColor, int
+      newWidth, PredefinedLineStyle newStyle) {
+      this.coordX = X;
+      this.coordY = Y;
+      this.ray = Ray;
+      this.strokeColor = strokeColor;
+      this.fillColor = fillColor;
       this.lineStyle = new PDFLineStyle(newWidth, newStyle);
    }
 

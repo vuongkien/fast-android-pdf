@@ -33,6 +33,17 @@ public class ParagraphElement extends PDFElement{
       this.strokeColor = new PDFColor(newStrokeColor);
    }
 
+   public ParagraphElement(Iterable newContent, int newFontSize, PredefinedFont newFontType, int
+      newCoordX, int newCoordY, PDFColor newStrokeColor)
+   {
+      this.content = newContent;
+      this.fontSize = newFontSize;
+      this.fontType = newFontType;
+      this.coordX = newCoordX;
+      this.coordY = newCoordY;
+      this.strokeColor = newStrokeColor;
+   }
+
    public Iterable getContent() {
       return content;
    }

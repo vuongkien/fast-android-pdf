@@ -106,6 +106,24 @@ public class LineElement extends PDFElement {
     * @param Y        Start Y position
     * @param X1       End X position
     * @param Y1       End Y position
+    * @param newColor  Line's color ie: new PDFColor("0","0","0") => BLACK
+    */
+   public LineElement(int X, int Y, int X1, int Y1, PDFColor newColor) {
+      this.coordX = X;
+      this.coordY = Y;
+      this.coordX1 = X1;
+      this.coordY1 = Y1;
+      this.strokeColor = newColor;
+      this.lineStyle = new PDFLineStyle(1, PredefinedLineStyle.Normal);
+   }
+
+   /**
+    * Class's Constructor
+    *
+    * @param X        Start X position
+    * @param Y        Start Y position
+    * @param X1       End X position
+    * @param Y1       End Y position
     * @param newStyle Line's style
     * @param newColor Line's color
     */
@@ -116,6 +134,26 @@ public class LineElement extends PDFElement {
       this.coordX1 = X1;
       this.coordY1 = Y1;
       this.strokeColor = new PDFColor(newColor);
+      this.lineStyle = new PDFLineStyle(1, newStyle);
+   }
+
+   /**
+    * Class's Constructor
+    *
+    * @param X        Start X position
+    * @param Y        Start Y position
+    * @param X1       End X position
+    * @param Y1       End Y position
+    * @param newStyle Line's style
+    * @param newColor Line's color ie: new PDFColor("0","0","0") => BLACK
+    */
+   public LineElement(int X, int Y, int X1, int Y1, PredefinedLineStyle newStyle,
+                      PDFColor newColor) {
+      this.coordX = X;
+      this.coordY = Y;
+      this.coordX1 = X1;
+      this.coordY1 = Y1;
+      this.strokeColor = newColor;
       this.lineStyle = new PDFLineStyle(1, newStyle);
    }
 
@@ -138,6 +176,25 @@ public class LineElement extends PDFElement {
       this.lineStyle = new PDFLineStyle(newWidth, PredefinedLineStyle.Normal);
    }
 
+   /**
+    * Class's Constructor
+    *
+    * @param X        Start X position
+    * @param Y        Start Y position
+    * @param X1       End X position
+    * @param Y1       End Y position
+    * @param newWidth Line's width
+    * @param newColor Line's color ie: new PDFColor("0","0","0") => BLACK
+    */
+   public LineElement(int X, int Y, int X1, int Y1, int newWidth, PDFColor newColor) {
+      this.coordX = X;
+      this.coordY = Y;
+      this.coordX1 = X1;
+      this.coordY1 = Y1;
+      this.strokeColor = newColor;
+      this.lineStyle = new PDFLineStyle(newWidth, PredefinedLineStyle.Normal);
+   }
+
 
    /**
     * Class's Constructor
@@ -156,6 +213,27 @@ public class LineElement extends PDFElement {
       this.coordX1 = X1;
       this.coordY1 = Y1;
       this.strokeColor = new PDFColor(newColor);
+      this.lineStyle = new PDFLineStyle(newWidth, newStyle);
+   }
+
+   /**
+    * Class's Constructor
+    *
+    * @param X        Start X position
+    * @param Y        Start Y position
+    * @param X1       End X position
+    * @param Y1       End Y position
+    * @param newWidth Line's width
+    * @param newStyle Line's style
+    * @param newColor Line's color ie: new PDFColor("0","0","0") => BLACK
+    */
+   public LineElement(int X, int Y, int X1, int Y1, int newWidth, PredefinedLineStyle newStyle, PDFColor
+      newColor) {
+      this.coordX = X;
+      this.coordY = Y;
+      this.coordX1 = X1;
+      this.coordY1 = Y1;
+      this.strokeColor = newColor;
       this.lineStyle = new PDFLineStyle(newWidth, newStyle);
    }
 
