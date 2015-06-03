@@ -39,12 +39,8 @@ public class MainActivity extends ActionBarActivity {
             for (int i = 0; i <= 50; i++) {
                PDFPage page = document.addPage();
                page.addText("ABC ABC ABC ABC ABC ABC BAC", 70, 60, PredefinedFont.Helvetica, 10);
-               int height = page.addParagraph("The Unity Asset Store is a great place to find " +
-                     "models, " +
-                     "scripts, audio and starter kits - but did you know you can also distribute " +
-                     "and sell your work to a wide audience of Unity users ? If you're a skilled" +
-                     " programmer, artist, designer, modeller or musician, you might want to " +
-                     "look at our Asset Store submission guidelines !", 20,
+               int height = page.addParagraph
+                  ("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaA haha very good", 20,
                   700, PredefinedFont.Courier, 10, PredefinedSize.A4_WIDTH - 40);
                int height2 = page.addParagraph("The Unity Asset Store is a great place to find " +
                      "models, " +
@@ -104,16 +100,18 @@ public class MainActivity extends ActionBarActivity {
                }
 
             }
-            PDFPage pdfPage2 = document.addPage(PredefinedSize.A4_WIDTH,PredefinedSize.A4_HEIGHT);
-            pdfPage2.addText("ABC ABC ABC ABC ABC ABC BAC", 70, 60, PredefinedFont.Helvetica, 10,
-               PredefinedColor.Blue, PredefinedTransform.DEGREES_90_ROTATION);
-            try {
-               pdfPage2.addImage(Environment.getExternalStorageDirectory()+"/Temporary_holder.jpg",
-                  20,400);
-            } catch (PDFImageNotFoundException e) {
-               e.printStackTrace();
-            } catch (PDFImageIOException e) {
-               e.printStackTrace();
+            for(int i=0;i<50;i++) {
+               PDFPage pdfPage2 = document.addPage(PredefinedSize.A4_WIDTH, PredefinedSize.A4_HEIGHT);
+               pdfPage2.addText("ABC ABC ABC ABC ABC ABC BAC", 70, 60, PredefinedFont.Helvetica, 10,
+                       PredefinedColor.Blue, PredefinedTransform.DEGREES_90_ROTATION);
+               try {
+                  pdfPage2.addImage(Environment.getExternalStorageDirectory() + "/Temporary_holder.jpg",
+                          20, 100);
+               } catch (PDFImageNotFoundException e) {
+                  e.printStackTrace();
+               } catch (PDFImageIOException e) {
+                  e.printStackTrace();
+               }
             }
             try {
                document.createPDF(Environment.getExternalStorageDirectory() + "/KienPDFTest.pdf");

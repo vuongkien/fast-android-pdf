@@ -8,6 +8,7 @@ import org.apache.commons.codec.binary.Hex;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Kien on 5/25/2015.
@@ -61,7 +62,7 @@ public abstract class TextAdapter {
    }
 
    public static String encodeHEX(String strText, String encoding) {
-      byte[] bytes = stringToBytes(strText,encoding);
+      byte[] bytes = stringToBytes(strText, encoding);
       return new String(Hex.encodeHex(bytes));
    }
 
@@ -161,7 +162,8 @@ public abstract class TextAdapter {
       for (String paragraph : paragraphsArray) {
          bufferArray = paragraph.split(" ");
          for (String word : bufferArray) {
-            if ((TextAdapter.wordWeight(word + " ", fontSize, fontType) + lineLength) > parWidth) {
+            if ((TextAdapter.wordWeight(word + " ", fontSize, fontType) + lineLength) > parWidth
+               && lineLength != 0) {
                switch (parAlign) {
                   case Left:
                   default:
@@ -180,6 +182,28 @@ public abstract class TextAdapter {
                resultArray.add(tempPar);
                lineString.replace(0, lineString.length() - 1, "");
                lineLength = 0;
+            }
+            if (TextAdapter.wordWeight(word, fontSize, fontType) > parWidth) {
+               List<String> splitWord = splitWord(word, fontSize, fontType, parWidth);
+               for(int i=0;i<splitWord.size()-1;i++){
+                  switch (parAlign) {
+                     case Left:
+                     default:
+                        tempPar = new ParagraphLine(splitWord.get(i),
+                           lineHeight, 0);
+                        break;
+                     case Right:
+                        tempPar = new ParagraphLine(splitWord.get(i)
+                           , lineHeight, parWidth - lineLength);
+                        break;
+                     case Center:
+                        tempPar = new ParagraphLine(splitWord.get(i)
+                           , lineHeight, ((parWidth - lineLength) / 2));
+                        break;
+                  }
+                  resultArray.add(tempPar);
+               }
+               word = splitWord.get(splitWord.size()-1);
             }
             lineString.append(word + " ");
             lineLength += TextAdapter.wordWeight(word + " ", fontSize, fontType);
@@ -249,5 +273,20 @@ public abstract class TextAdapter {
       return tempWord.toString();
    }
 
+   public static List<String> splitWord(String word, int fontSize, PredefinedFont fontType,
+                                        int textSpace) {
+      List<String> splitWord = new ArrayList<>();
+      StringBuilder tempWord = new StringBuilder();
+      int i = 0;
+      while ((i < word.length())) {
+         while ((wordWeight(tempWord.toString(), fontSize, fontType) <= textSpace) && (i < word.length())) {
+            tempWord.append(word.toCharArray()[i]);
+            i++;
+         }
+         splitWord.add(tempWord.toString());
+         tempWord.replace(0, tempWord.length() - 1, "");
+      }
+      return splitWord;
+   }
 
 }
