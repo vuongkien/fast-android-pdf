@@ -1,5 +1,9 @@
 package com.vmodev.pdfwriter.model;
 
+import android.graphics.Color;
+
+import java.text.DecimalFormat;
+
 /**
  * Created by Kien on 5/25/2015.
  */
@@ -193,11 +197,36 @@ public class PDFColor {
       color = newColor;
    }
 
+   /**
+    * Class's Constructor
+    *
+    * @param rColor String red value
+    * @param gColor String green value
+    * @param bColor String blue value
+    */
    public PDFColor(String rColor, String gColor, String bColor) {
       this.rColor = rColor;
       this.gColor = gColor;
       this.bColor = bColor;
    }
+
+   /**
+    *
+    * @param hexColor String color
+    */
+   public PDFColor(String hexColor){
+      int color = Color.parseColor(hexColor);
+      int r = (color >> 16) & 0xFF;
+      int g = (color >> 8) & 0xFF;
+      int b = (color) & 0xFF;
+      DecimalFormat format = new DecimalFormat("#.##");
+      rColor = format.format(r / (double) 255);
+      gColor = format.format(g / (double) 255);
+      bColor = format.format(b / (double) 255);
+      this.color = PredefinedColor.Black;
+   }
+
+
 
    /**
     * Method that validates the color

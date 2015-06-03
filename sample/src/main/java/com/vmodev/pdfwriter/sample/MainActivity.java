@@ -15,12 +15,12 @@ import com.vmodev.pdfwriter.exception.PDFImageNotFoundException;
 import com.vmodev.pdfwriter.exception.PDFIncorrectColumnException;
 import com.vmodev.pdfwriter.exception.PDFIncorrectRowException;
 import com.vmodev.pdfwriter.exception.PDFWritingErrorException;
+import com.vmodev.pdfwriter.model.PDFColor;
 import com.vmodev.pdfwriter.model.PDFTable;
 import com.vmodev.pdfwriter.model.PDFTableColumn;
 import com.vmodev.pdfwriter.model.PDFTableHeader;
 import com.vmodev.pdfwriter.model.PDFTableRow;
 import com.vmodev.pdfwriter.model.PredefinedAlignment;
-import com.vmodev.pdfwriter.model.PredefinedColor;
 import com.vmodev.pdfwriter.model.PredefinedFont;
 import com.vmodev.pdfwriter.model.PredefinedSize;
 import com.vmodev.pdfwriter.model.PredefinedTransform;
@@ -41,7 +41,7 @@ public class MainActivity extends ActionBarActivity {
                page.addText("ABC ABC ABC ABC ABC ABC BAC", 70, 60, PredefinedFont.Helvetica, 10);
                int height = page.addParagraph
                   ("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaA test too long word aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaA", 20,
-                  700, PredefinedFont.Courier, 10, 100);
+                  700,PredefinedFont.Courier, 10, 100);
                int height2 = page.addParagraph("The Unity Asset Store is a great place to find " +
                      "models, " +
                      "scripts, audio and starter kits - but did you know you can also distribute and" +
@@ -49,7 +49,7 @@ public class MainActivity extends ActionBarActivity {
                      "programmer, artist, designer, modeller or musician, you might want to look at " +
                      "our Asset Store submission guidelines !", 20, 700 - height - 20, PredefinedFont
                      .Helvetica,
-                  10, PredefinedSize.A4_WIDTH - 40);
+                  10,PredefinedSize.A4_WIDTH - 40);
 
                int height3 = page.addParagraph("The Unity Asset Store is a great place to find " +
                      "models, " +
@@ -102,8 +102,8 @@ public class MainActivity extends ActionBarActivity {
             }
             for(int i=0;i<50;i++) {
                PDFPage pdfPage2 = document.addPage(PredefinedSize.A4_WIDTH, PredefinedSize.A4_HEIGHT);
-               pdfPage2.addText("ABC ABC ABC ABC ABC ABC BAC", 70, 60, PredefinedFont.Helvetica, 10,
-                       PredefinedColor.Blue, PredefinedTransform.DEGREES_90_ROTATION);
+               pdfPage2.addText("ABC ABC ABC ABC ABC ABC BAC", 70, 60, PredefinedFont.Helvetica, 10
+                  ,new PDFColor("#ff0000"), PredefinedTransform.DEGREES_90_ROTATION);
                try {
                   pdfPage2.addImage(Environment.getExternalStorageDirectory() + "/Temporary_holder.jpg",
                           20, 100);

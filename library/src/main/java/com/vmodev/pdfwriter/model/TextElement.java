@@ -144,9 +144,8 @@ public class TextElement extends PDFElement {
          hexContent.append(strokeColor.getrColor() + " " + strokeColor.getgColor() + " " +
             strokeColor.getbColor() + " rg" + (char) 13 + (char) 10);
       }
-      hexContent.append(transformation.getValue() + " " + String.valueOf(coordX) + " " + String.valueOf
-         (coordY) + " Tm" + (char)
-         13 + (char) 10);
+      hexContent.append(transformation.getValue() + " " + String.valueOf(coordX) + " "
+         + String.valueOf(coordY) + " Tm" + (char)13 + (char) 10);
       hexContent.append("(" + TextAdapter.checkText(content) + ") Tj" + (char) 13 + (char) 10);
       hexContent.append("ET" + (char) 13 + (char) 10);
       hexContent.append("Q");

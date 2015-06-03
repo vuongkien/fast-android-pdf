@@ -167,8 +167,7 @@ public abstract class TextAdapter {
                switch (parAlign) {
                   case Left:
                   default:
-                     tempPar = new ParagraphLine(lineString.substring(0, lineString.length() - 1)
-                        .trim(),
+                     tempPar = new ParagraphLine(lineString.substring(0, lineString.length() - 1).trim(),
                         lineHeight, 0);
                      break;
                   case Right:
@@ -190,16 +189,13 @@ public abstract class TextAdapter {
                   switch (parAlign) {
                      case Left:
                      default:
-                        tempPar = new ParagraphLine(splitWord.get(i).trim(),
-                           lineHeight, 0);
+                        tempPar = new ParagraphLine(splitWord.get(i).trim(), lineHeight, 0);
                         break;
                      case Right:
-                        tempPar = new ParagraphLine(splitWord.get(i).trim()
-                           , lineHeight, parWidth - lineLength);
+                        tempPar = new ParagraphLine(splitWord.get(i).trim(), lineHeight, parWidth - lineLength);
                         break;
                      case Center:
-                        tempPar = new ParagraphLine(splitWord.get(i).trim()
-                           , lineHeight, ((parWidth - lineLength) / 2));
+                        tempPar = new ParagraphLine(splitWord.get(i).trim(), lineHeight, ((parWidth - lineLength) / 2));
                         break;
                   }
                   resultArray.add(tempPar);
