@@ -40,8 +40,8 @@ public class MainActivity extends ActionBarActivity {
                PDFPage page = document.addPage();
                page.addText("ABC ABC ABC ABC ABC ABC BAC", 70, 60, PredefinedFont.Helvetica, 10);
                int height = page.addParagraph
-                  ("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaA haha very good", 20,
-                  700, PredefinedFont.Courier, 10, PredefinedSize.A4_WIDTH - 40);
+                  ("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaA test too long word aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaA", 20,
+                  700, PredefinedFont.Courier, 10, 100);
                int height2 = page.addParagraph("The Unity Asset Store is a great place to find " +
                      "models, " +
                      "scripts, audio and starter kits - but did you know you can also distribute and" +
