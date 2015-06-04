@@ -21,6 +21,7 @@ import com.vmodev.pdfwriter.model.PDFTableColumn;
 import com.vmodev.pdfwriter.model.PDFTableHeader;
 import com.vmodev.pdfwriter.model.PDFTableRow;
 import com.vmodev.pdfwriter.model.PredefinedAlignment;
+import com.vmodev.pdfwriter.model.PredefinedColor;
 import com.vmodev.pdfwriter.model.PredefinedFont;
 import com.vmodev.pdfwriter.model.PredefinedSize;
 import com.vmodev.pdfwriter.model.PredefinedTransform;
@@ -60,6 +61,10 @@ public class MainActivity extends ActionBarActivity {
                   PredefinedFont
                      .Times,
                   10, PredefinedSize.A4_WIDTH - 40);
+
+               page.drawRoundRectangle(20,700-height-height2-height3-40,200,100,10,
+                  PredefinedColor.Blue,PredefinedColor.Red);
+
                try {
                   PDFTable pdfTable = new PDFTable();
                   PDFTableHeader header = new PDFTableHeader();

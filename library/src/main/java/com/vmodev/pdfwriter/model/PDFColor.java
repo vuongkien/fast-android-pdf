@@ -200,17 +200,34 @@ public class PDFColor {
    /**
     * Class's Constructor
     *
-    * @param rColor String red value
-    * @param gColor String green value
-    * @param bColor String blue value
+    * @param rColor red value
+    * @param gColor green value
+    * @param bColor blue value
+    */
+   public PDFColor(int rColor, int gColor, int bColor){
+      DecimalFormat format = new DecimalFormat("#.##");
+      this.rColor = format.format(rColor / (double) 255);
+      this.gColor = format.format(gColor / (double) 255);
+      this.bColor = format.format(bColor / (double) 255);
+      this.color = PredefinedColor.Black;
+   }
+
+   /**
+    * Class's Constructor
+    *
+    * @param rColor String red value is value of red/255
+    * @param gColor String green value is value of red/255
+    * @param bColor String blue value is value of red/255
     */
    public PDFColor(String rColor, String gColor, String bColor) {
       this.rColor = rColor;
       this.gColor = gColor;
       this.bColor = bColor;
+      this.color = PredefinedColor.Black;
    }
 
    /**
+    * Class's Constructor
     *
     * @param hexColor String color
     */

@@ -24,6 +24,7 @@ import com.vmodev.pdfwriter.model.PredefinedLineStyle;
 import com.vmodev.pdfwriter.model.PredefinedSize;
 import com.vmodev.pdfwriter.model.PredefinedTransform;
 import com.vmodev.pdfwriter.model.RectangleElement;
+import com.vmodev.pdfwriter.model.RoundRectElement;
 import com.vmodev.pdfwriter.model.TextElement;
 
 import java.util.ArrayList;
@@ -1030,6 +1031,168 @@ public class PDFPage implements IWritable {
       elements.add(objRectangle);
       objRectangle = null;
    }
+
+   /**
+    * Method that adds a rounded rectangle to the page object
+    *
+    * @param X           X position of the rectangle in the page
+    * @param Y           Y position of the rectangle in the page
+    * @param w           width of the rectangle
+    * @param h           height of the rectangle
+    * @param radius      radius of the arc corner
+    * @param strokeColor Stroke color
+    * @param fillColor   Fill color
+    */
+   public void drawRoundRectangle(int X, int Y, int w, int h, int radius, PredefinedColor
+      strokeColor,
+                                  PredefinedColor fillColor) {
+      RoundRectElement objRectangle = new RoundRectElement(X, Y, w, h, radius, strokeColor,
+         fillColor);
+      elements.add(objRectangle);
+      objRectangle = null;
+   }
+
+   /**
+    * Method that adds a rounded rectangle to the page object
+    *
+    * @param X           X position of the rectangle in the page
+    * @param Y           Y position of the rectangle in the page
+    * @param w           width of the rectangle
+    * @param h           height of the rectangle
+    * @param radius      radius of the arc corner
+    * @param strokeColor Stroke color
+    * @param fillColor   Fill color
+    */
+   public void drawRoundRectangle(int X, int Y, int w, int h, int radius, PDFColor strokeColor,
+                                  PDFColor fillColor) {
+      RoundRectElement objRectangle = new RoundRectElement(X, Y, w, h, radius, strokeColor,
+         fillColor);
+      elements.add(objRectangle);
+      objRectangle = null;
+   }
+
+   /**
+    * Method that adds a rounded rectangle to the page object
+    *
+    * @param X           X position of the rectangle in the page
+    * @param Y           Y position of the rectangle in the page
+    * @param w           width of the rectangle
+    * @param h           height of the rectangle
+    * @param radius      radius of the arc corner
+    * @param strokeColor Stroke color
+    * @param fillColor   Fill color
+    * @param borderWidth Border's size
+    */
+   public void drawRoundRectangle(int X, int Y, int w, int h, int radius, PredefinedColor
+      strokeColor, PredefinedColor fillColor, int borderWidth) {
+      RoundRectElement objRectangle = new RoundRectElement(X, Y, w, h, radius, strokeColor, fillColor,
+         borderWidth);
+      elements.add(objRectangle);
+      objRectangle = null;
+   }
+
+   /**
+    * Method that adds a rounded rectangle to the page object
+    *
+    * @param X           X position of the rectangle in the page
+    * @param Y           Y position of the rectangle in the page
+    * @param w           width of the rectangle
+    * @param h           height of the rectangle
+    * @param radius      radius of the arc corner
+    * @param strokeColor Stroke color
+    * @param fillColor   Fill color
+    * @param borderWidth Border's size
+    */
+   public void drawRoundRectangle(int X, int Y, int w, int h, int radius, PDFColor strokeColor,
+                                  PDFColor fillColor, int borderWidth) {
+      RoundRectElement objRectangle = new RoundRectElement(X, Y, w, h, radius, strokeColor, fillColor,
+         borderWidth);
+      elements.add(objRectangle);
+      objRectangle = null;
+   }
+
+   /**
+    * Method that adds a rounded rectangle to the page object
+    *
+    * @param X           X position of the rectangle in the page
+    * @param Y           Y position of the rectangle in the page
+    * @param w           width of the rectangle
+    * @param h           height of the rectangle
+    * @param radius      radius of the arc corner
+    * @param strokeColor Stroke color
+    * @param fillColor   Fill color
+    * @param borderStyle Border's style
+    */
+   public void drawRoundRectangle(int X, int Y, int w, int h, int radius, PredefinedColor
+      strokeColor, PredefinedColor fillColor, PredefinedLineStyle borderStyle) {
+      RoundRectElement objRectangle = new RoundRectElement(X, Y, w, h, radius, strokeColor, fillColor,
+         borderStyle);
+      elements.add(objRectangle);
+      objRectangle = null;
+   }
+
+   /**
+    * Method that adds a rounded rectangle to the page object
+    *
+    * @param X           X position of the rectangle in the page
+    * @param Y           Y position of the rectangle in the page
+    * @param w           width of the rectangle
+    * @param h           height of the rectangle
+    * @param radius      radius of the arc corner
+    * @param strokeColor Stroke color
+    * @param fillColor   Fill color
+    * @param borderStyle Border's style
+    */
+   public void drawRoundRectangle(int X, int Y, int w, int h, int radius, PDFColor strokeColor,
+                                  PDFColor fillColor, PredefinedLineStyle borderStyle) {
+      RoundRectElement objRectangle = new RoundRectElement(X, Y, w, h, radius, strokeColor, fillColor,
+         borderStyle);
+      elements.add(objRectangle);
+      objRectangle = null;
+   }
+
+   /**
+    * Method that adds a rectangle to the page object
+    *
+    * @param X           X position of the rectangle in the page
+    * @param Y           Y position of the rectangle in the page
+    * @param w           width of the rectangle
+    * @param h           height of the rectangle
+    * @param radius      radius of the arc corner
+    * @param strokeColor Stroke color
+    * @param fillColor   Fill color
+    * @param borderWidth Border's width
+    * @param borderStyle Border's style
+    */
+   public void drawRoundRectangle(int X, int Y, int w, int h, int radius, PredefinedColor
+      strokeColor, PredefinedColor fillColor, int borderWidth, PredefinedLineStyle borderStyle) {
+      RoundRectElement objRectangle = new RoundRectElement(X, Y, w, h, radius, strokeColor, fillColor,
+         borderWidth, borderStyle);
+      elements.add(objRectangle);
+      objRectangle = null;
+   }
+
+   /**
+    * Method that adds a rectangle to the page object
+    *
+    * @param X           X position of the rectangle in the page
+    * @param Y           Y position of the rectangle in the page
+    * @param w           width of the rectangle
+    * @param h           height of the rectangle
+    * @param radius      radius of the arc corner
+    * @param strokeColor Stroke color
+    * @param fillColor   Fill color
+    * @param borderWidth Border's width
+    * @param borderStyle Border's style
+    */
+   public void drawRoundRectangle(int X, int Y, int w, int h, int radius, PDFColor strokeColor,
+                                  PDFColor fillColor, int borderWidth, PredefinedLineStyle borderStyle) {
+      RoundRectElement objRectangle = new RoundRectElement(X, Y, w, h, radius, strokeColor, fillColor,
+         borderWidth, borderStyle);
+      elements.add(objRectangle);
+      objRectangle = null;
+   }
+
 
    /**
     * Method that adds a circle to the page object
