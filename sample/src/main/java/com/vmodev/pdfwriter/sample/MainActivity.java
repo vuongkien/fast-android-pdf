@@ -110,8 +110,8 @@ public class MainActivity extends ActionBarActivity {
                pdfPage2.addText("ABC ABC ABC ABC ABC ABC BAC", 70, 60, PredefinedFont.Helvetica, 10
                   ,new PDFColor("#ff0000"), PredefinedTransform.DEGREES_90_ROTATION);
                try {
-                  pdfPage2.addImage(Environment.getExternalStorageDirectory() + "/Temporary_holder.jpg",
-                          20, 100);
+                  pdfPage2.addImage(Environment.getExternalStorageDirectory() + "/picture.jpg",
+                          20, 100,400,400);
                } catch (PDFImageNotFoundException e) {
                   e.printStackTrace();
                } catch (PDFImageIOException e) {

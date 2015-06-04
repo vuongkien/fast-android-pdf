@@ -63,6 +63,7 @@ public class ImageElement extends PDFElement {
       }
       outStream = null;
       bitmap = null;
+      System.gc();
    }
 
    /**
@@ -92,6 +93,7 @@ public class ImageElement extends PDFElement {
       }
       outStream = null;
       bitmap = null;
+      System.gc();
    }
 
    /**
@@ -104,8 +106,23 @@ public class ImageElement extends PDFElement {
     */
    public ImageElement(Bitmap bitmap, int newCoordX, int newCoordY, int newHeight, int
       newWidth) throws PDFImageIOException {
+      int inWidth = bitmap.getWidth();
+      int inHeight = bitmap.getHeight();
+      int outWidth;
+      int outHeight;
+      if(newWidth<inWidth||newHeight<inWidth){
+         if(inWidth > inHeight){
+            outWidth = newWidth;
+            outHeight = (inHeight * outWidth) / inWidth;
+         } else {
+            outHeight = newHeight;
+            outWidth = (inWidth * outHeight) / inHeight;
+         }
+         bitmap = Bitmap.createScaledBitmap(bitmap,outWidth,outHeight,false);
+      }
       ByteArrayOutputStream outStream = new ByteArrayOutputStream();
       bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+
       this.content = new byte[outStream.size()];
       this.content = outStream.toByteArray();
       this.height = bitmap.getHeight();
@@ -121,6 +138,7 @@ public class ImageElement extends PDFElement {
       }
       outStream = null;
       bitmap = null;
+      System.gc();
    }
 
 
@@ -135,6 +153,22 @@ public class ImageElement extends PDFElement {
     */
    public ImageElement(Bitmap bitmap, int newCoordX, int newCoordY, int newHeight, int
       newWidth, PredefinedTransform transform) throws PDFImageIOException {
+
+      int inWidth = bitmap.getWidth();
+      int inHeight = bitmap.getHeight();
+      int outWidth;
+      int outHeight;
+      if(newWidth<inWidth||newHeight<inWidth){
+         if(inWidth > inHeight){
+            outWidth = newWidth;
+            outHeight = (inHeight * outWidth) / inWidth;
+         } else {
+            outHeight = newHeight;
+            outWidth = (inWidth * outHeight) / inHeight;
+         }
+         bitmap = Bitmap.createScaledBitmap(bitmap,outWidth,outHeight,false);
+      }
+
       ByteArrayOutputStream outStream = new ByteArrayOutputStream();
       bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
       this.content = new byte[outStream.size()];
@@ -153,6 +187,7 @@ public class ImageElement extends PDFElement {
       }
       outStream = null;
       bitmap = null;
+      System.gc();
    }
 
 
@@ -180,6 +215,7 @@ public class ImageElement extends PDFElement {
          outStream.close();
          outStream = null;
          bitmap = null;
+         System.gc();
       } catch (FileNotFoundException ex) {
          throw new PDFImageNotFoundException("Cannot find " + imagePath, ex);
       } catch (IOException ex) {
@@ -213,6 +249,7 @@ public class ImageElement extends PDFElement {
          outStream.close();
          outStream = null;
          bitmap = null;
+         System.gc();
       } catch (FileNotFoundException ex) {
          throw new PDFImageNotFoundException("Cannot find " + imagePath, ex);
       } catch (IOException ex) {
@@ -235,6 +272,20 @@ public class ImageElement extends PDFElement {
       newWidth) throws PDFImageNotFoundException, PDFImageIOException {
       try {
          Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+         int inWidth = bitmap.getWidth();
+         int inHeight = bitmap.getHeight();
+         int outWidth;
+         int outHeight;
+         if(newWidth<inWidth||newHeight<inWidth){
+            if(inWidth > inHeight){
+               outWidth = newWidth;
+               outHeight = (inHeight * outWidth) / inWidth;
+            } else {
+               outHeight = newHeight;
+               outWidth = (inWidth * outHeight) / inHeight;
+            }
+            bitmap = Bitmap.createScaledBitmap(bitmap,outWidth,outHeight,false);
+         }
          ByteArrayOutputStream outStream = new ByteArrayOutputStream();
          bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
          this.content = new byte[outStream.size()];
@@ -248,6 +299,7 @@ public class ImageElement extends PDFElement {
          outStream.close();
          outStream = null;
          bitmap = null;
+         System.gc();
       } catch (FileNotFoundException ex) {
          throw new PDFImageNotFoundException("Cannot find " + imagePath, ex);
       } catch (IOException ex) {
@@ -272,6 +324,20 @@ public class ImageElement extends PDFElement {
       throws PDFImageNotFoundException, PDFImageIOException {
       try {
          Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+         int inWidth = bitmap.getWidth();
+         int inHeight = bitmap.getHeight();
+         int outWidth;
+         int outHeight;
+         if(newWidth<inWidth||newHeight<inWidth){
+            if(inWidth > inHeight){
+               outWidth = newWidth;
+               outHeight = (inHeight * outWidth) / inWidth;
+            } else {
+               outHeight = newHeight;
+               outWidth = (inWidth * outHeight) / inHeight;
+            }
+            bitmap = Bitmap.createScaledBitmap(bitmap,outWidth,outHeight,false);
+         }
          ByteArrayOutputStream outStream = new ByteArrayOutputStream();
          bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
          this.content = new byte[outStream.size()];
@@ -286,6 +352,7 @@ public class ImageElement extends PDFElement {
          outStream.close();
          outStream = null;
          bitmap = null;
+         System.gc();
       } catch (FileNotFoundException ex) {
          throw new PDFImageNotFoundException("Cannot find " + imagePath, ex);
       } catch (IOException ex) {
