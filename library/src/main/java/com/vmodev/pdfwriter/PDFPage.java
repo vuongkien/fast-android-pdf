@@ -1152,7 +1152,7 @@ public class PDFPage implements IWritable {
    }
 
    /**
-    * Method that adds a rectangle to the page object
+    * Method that adds a rounded rectangle to the page object
     *
     * @param X           X position of the rectangle in the page
     * @param Y           Y position of the rectangle in the page
@@ -1173,7 +1173,7 @@ public class PDFPage implements IWritable {
    }
 
    /**
-    * Method that adds a rectangle to the page object
+    * Method that adds a rounded rectangle to the page object
     *
     * @param X           X position of the rectangle in the page
     * @param Y           Y position of the rectangle in the page
