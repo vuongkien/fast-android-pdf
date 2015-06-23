@@ -21,7 +21,6 @@ import com.vmodev.pdfwriter.model.PDFTableColumn;
 import com.vmodev.pdfwriter.model.PDFTableHeader;
 import com.vmodev.pdfwriter.model.PDFTableRow;
 import com.vmodev.pdfwriter.model.PredefinedAlignment;
-import com.vmodev.pdfwriter.model.PredefinedColor;
 import com.vmodev.pdfwriter.model.PredefinedFont;
 import com.vmodev.pdfwriter.model.PredefinedSize;
 import com.vmodev.pdfwriter.model.PredefinedTransform;
@@ -39,31 +38,15 @@ public class MainActivity extends ActionBarActivity {
             PDFDocument document = new PDFDocument("Kien", "ME");
             for (int i = 0; i <= 50; i++) {
                PDFPage page = document.addPage();
-               page.addText("ABC ABC ABC ABC ABC ABC BAC", 70, 60, PredefinedFont.Helvetica, 10);
+               page.addText("Kiên", 70, 60, PredefinedFont.Times,
+                  10);
                int height = page.addParagraph
-                  ("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaA test too long word aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaA", 20,
-                  700,PredefinedFont.Courier, 10, 100);
-               int height2 = page.addParagraph("The Unity Asset Store is a great place to find " +
-                     "models, " +
-                     "scripts, audio and starter kits - but did you know you can also distribute and" +
-                     " sell your work to a wide audience of Unity users ? If you're a skilled " +
-                     "programmer, artist, designer, modeller or musician, you might want to look at " +
-                     "our Asset Store submission guidelines !", 20, 700 - height - 20, PredefinedFont
-                     .Helvetica,
-                  10,PredefinedSize.A4_WIDTH - 40);
+                  ("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaA test too long word aaa" +
+                        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaA", 20,
+                  PredefinedSize.A4_HEIGHT,PredefinedFont.Courier, 10, 100,200);
 
-               int height3 = page.addParagraph("The Unity Asset Store is a great place to find " +
-                     "models, " +
-                     "scripts, audio and starter kits - but did you know you can also distribute and" +
-                     " sell your work to a wide audience of Unity users ? If you're a skilled " +
-                     "programmer, artist, designer, modeller or musician, you might want to look at " +
-                     "our Asset Store submission guidelines !", 20, 700 - height - height2 - 40,
-                  PredefinedFont
-                     .Times,
-                  10, PredefinedSize.A4_WIDTH - 40);
-
-               page.drawRoundRectangle(20,700-height-height2-height3-40,200,100,10,
-                  PredefinedColor.Blue,PredefinedColor.Red);
 
                try {
                   PDFTable pdfTable = new PDFTable();
@@ -98,7 +81,7 @@ public class MainActivity extends ActionBarActivity {
                   pdfTable.addRow(row3);
                   pdfTable.addRow(row4);
                   pdfTable.addRow(row5);
-                  page.addTable(pdfTable, 20, 700 - height - height2 - height3 - 60);
+                  page.addTable(pdfTable, 20, 700 - height);
                } catch (PDFIncorrectColumnException | PDFBadColumnIndexException
                   | PDFIncorrectRowException e) {
                   e.printStackTrace();

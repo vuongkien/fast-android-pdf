@@ -67,7 +67,7 @@ public abstract class TextAdapter {
    }
 
    /**
-    * Convert String to byte array
+    * Convert String ASCII to byte array
     *
     * @param str Input string
     * @return byte array
@@ -79,6 +79,13 @@ public abstract class TextAdapter {
          b[i] = (byte) buffer[i];
       }
       return b;
+   }
+
+   /**
+    * Convert String  UTF-8 to byte array
+    */
+   public static byte[] stringToBytesUTF8(String str) {
+      return org.apache.commons.codec.binary.StringUtils.getBytesUtf8(str);
    }
 
    /**
@@ -120,12 +127,13 @@ public abstract class TextAdapter {
     * @return Iterable interface that contains paragraphLine objects
     */
    public static Iterable formatParagraph(String strText, int fontSize, PredefinedFont fontType, int
-      parWidth) {
-      return formatParagraph(strText, fontSize, fontType, parWidth, fontSize + 4, PredefinedAlignment.Left);
+      parWidth, int parHeight) {
+      return formatParagraph(strText, fontSize, fontType, parWidth,parHeight ,fontSize + 4,
+         PredefinedAlignment.Left);
    }
 
    /**
-    * Static method thats format a paragraph
+    * Static method that format a paragraph
     *
     * @param strText    Input text
     * @param fontSize   Font's size
@@ -135,12 +143,13 @@ public abstract class TextAdapter {
     * @return Iterable interface that contains paragraphLine objects
     */
    public static Iterable formatParagraph(String strText, int fontSize, PredefinedFont fontType,
-                                          int parWidth, int lineHeight) {
-      return formatParagraph(strText, fontSize, fontType, parWidth, lineHeight, PredefinedAlignment.Left);
+                                          int parWidth, int parHeight, int lineHeight) {
+      return formatParagraph(strText, fontSize, fontType, parWidth, parHeight, lineHeight,
+         PredefinedAlignment.Left);
    }
 
    /**
-    * Static method thats format a paragraph
+    * Static method that format a paragraph
     *
     * @param strText    Input text
     * @param fontSize   Font's size
@@ -151,7 +160,10 @@ public abstract class TextAdapter {
     * @return Iterable interface that contains paragraphLine objects
     */
    public static Iterable formatParagraph(String strText, int fontSize, PredefinedFont fontType,
-                                          int parWidth, int lineHeight, PredefinedAlignment parAlign) {
+                                          int parWidth, int parHeight, int lineHeight,
+                                          PredefinedAlignment parAlign) {
+      int maxLine = parHeight/lineHeight;
+      int count=0;
       String[] paragraphsArray = strText.split("[\\r\\n]+");
       String[] bufferArray;
       int lineLength;
@@ -179,13 +191,18 @@ public abstract class TextAdapter {
                         , lineHeight, ((parWidth - lineLength) / 2));
                      break;
                }
-               resultArray.add(tempPar);
-               lineString.replace(0, lineString.length() - 1, "");
-               lineLength = 0;
+               if(count<maxLine) {
+                  resultArray.add(tempPar);
+                  lineString.replace(0, lineString.length() - 1, "");
+                  lineLength = 0;
+                  count++;
+               }else {
+                  return resultArray;
+               }
             }
             if (TextAdapter.wordWeight(word, fontSize, fontType) > parWidth) {
                List<String> splitWord = splitWord(word, fontSize, fontType, parWidth);
-               for(int i=0;i<splitWord.size()-1;i++){
+               for (int i = 0; i < splitWord.size() - 1; i++) {
                   switch (parAlign) {
                      case Left:
                      default:
@@ -198,9 +215,14 @@ public abstract class TextAdapter {
                         tempPar = new ParagraphLine(splitWord.get(i).trim(), lineHeight, ((parWidth - lineLength) / 2));
                         break;
                   }
-                  resultArray.add(tempPar);
+                  if(count<maxLine) {
+                     resultArray.add(tempPar);
+                     count++;
+                  }else {
+                     return resultArray;
+                  }
                }
-               word = splitWord.get(splitWord.size()-1);
+               word = splitWord.get(splitWord.size() - 1);
             }
             lineString.append(word + " ");
             lineLength += TextAdapter.wordWeight(word + " ", fontSize, fontType);
@@ -221,9 +243,14 @@ public abstract class TextAdapter {
                      lineHeight, ((parWidth - lineLength) / 2));
                   break;
             }
-            resultArray.add(tempPar);
-            lineString.replace(0, lineString.length() - 1, "");
-            lineLength = 0;
+            if(count<maxLine) {
+               resultArray.add(tempPar);
+               lineString.replace(0, lineString.length() - 1, "");
+               lineLength = 0;
+               count++;
+            }else {
+               return resultArray;
+            }
          }
          bufferArray = null;
       }
@@ -231,7 +258,7 @@ public abstract class TextAdapter {
    }
 
    /**
-    * Static Method that returns the lenght of a single word
+    * Static Method that returns the length of a single word
     *
     * @param word     Input word
     * @param fontSize Font's size
@@ -241,7 +268,11 @@ public abstract class TextAdapter {
    public static int wordWeight(String word, int fontSize, PredefinedFont fontType) {
       double returnWeight = 0;
       for (char myChar : word.toCharArray()) {
-         returnWeight += TextAdapter.fontWeight[fontType.getValue() - 1][(byte) myChar];
+         try {
+            returnWeight += TextAdapter.fontWeight[fontType.getValue() - 1][(byte) myChar];
+         } catch (IndexOutOfBoundsException ex) {
+            returnWeight += TextAdapter.fontWeight[fontType.getValue() - 1][1];
+         }
       }
       return (int) (returnWeight * fontSize / 1000);
    }
@@ -270,6 +301,15 @@ public abstract class TextAdapter {
       return tempWord.toString();
    }
 
+   /**
+    * Static method that split word if word's length longer than line's length
+    *
+    * @param word      input word
+    * @param fontSize  font's size
+    * @param fontType  font's type
+    * @param textSpace line's width
+    * @return List split word
+    */
    public static List<String> splitWord(String word, int fontSize, PredefinedFont fontType,
                                         int textSpace) {
       List<String> splitWord = new ArrayList<>();

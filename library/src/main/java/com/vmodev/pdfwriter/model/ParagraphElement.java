@@ -92,6 +92,7 @@ public class ParagraphElement extends PDFElement{
             throw new PDFIncorrectParagraghException();
          }
       }
+
       hexContent.append("ET" + (char)13 + (char)10);
       hexContent.append("Q" + (char)13 + (char)10);
       resultText.append("/Length " + String.valueOf((hexContent.length() * 2) + 1) + (char)13 + (char)10);

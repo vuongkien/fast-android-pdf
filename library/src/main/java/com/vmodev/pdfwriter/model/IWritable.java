@@ -7,7 +7,6 @@ import com.vmodev.pdfwriter.exception.PDFIncorrectParagraghException;
  */
 public interface IWritable {
 
-
    /**
     * Method that returns the PDF codes to write the object in the document
     *
