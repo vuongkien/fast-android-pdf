@@ -153,8 +153,7 @@ public class TextElement extends PDFElement {
       resultText.append(">>" + (char) 13 + (char) 10);
       resultText.append("stream" + (char) 13 + (char) 10);
       resultText.append(TextAdapter.encodeHEX(hexContent.toString()) + ">" + (char) 13 +
-         (char)
-            10);
+         (char) 10);
       resultText.append("endstream" + (char) 13 + (char) 10);
       resultText.append("endobj" + (char) 13 + (char) 10);
       hexContent = null;

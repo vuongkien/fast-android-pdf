@@ -5,7 +5,7 @@ package com.vmodev.pdfwriter.exception;
  */
 
 /**
- * Exception that represents an nonexistent image
+ * Exception that represents a nonexistent image
  */
 public class PDFImageNotFoundException extends PDFException{
 
